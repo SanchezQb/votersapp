@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Dimensions, Picker, BackHandler } from 'react-native'
+import { View, Text, Image, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Dimensions, Picker, BackHandler, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import CodeInput from 'react-native-confirmation-code-input';
+import axios from 'axios'
 
 export default class Verify extends Component{
+    constructor() {
+        super()
+        this.state = {
+            token: '' 
+        }
+    }
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
@@ -21,11 +28,33 @@ export default class Verify extends Component{
         Actions.pop();
         return true;
       }
+      verify = (code) => {
+          console.log("called", code, this.props.data)
+
+        var params = new URLSearchParams();
+        params.append('user_id', this.props.data);
+        params.append('token', code);
+        axios.post('http://api.atikuvotersapp.org/verifytoken', params)
+        .then(response => {
+            console.log({VerifyRes:response})
+            if(response.data.status !== 'false') {
+                console.log(response)
+               Actions.home()
+               console.log(code)
+            }
+            else {
+                ToastAndroid.show('Token incorrect', ToastAndroid.SHORT);
+            }
+        })
+        .catch(err => console.log(err)) 
+      }
     
     render(){
+
         return(
+
             <ImageBackground source={require('../img/bg-32.png')} style={styles.bgImg} >
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}>
                 <Image source={require('../img/icons-24.png')} style={styles.logo}/>
                 <View style={ styles.bottom  } >
                 <Text style = {styles.instruction}> Verify Your Phone Number </Text> 
@@ -41,16 +70,21 @@ export default class Verify extends Component{
                             size={30}
                             autoFocus={false}
                             inputPosition='left'
-                            onFulfill={(code) => Actions.manifest()}
+                            onFulfill={(code) => {
+                                this.setState({
+                                    token: code
+                                })
+                                this.verify(code)
+                            }}
                         />
                     </View>
                 </View>
                     <View style={styles.buttonContainer}>
-                        <Button onPress={() => Actions.manifest()} containerStyle={styles.butCont} style={styles.button}>Verify</Button>
+                        <Button onPress={() => Actions.home()} containerStyle={styles.butCont} style={styles.button}>Verify</Button>
                         <Button onPress={() => Actions.verify()} containerStyle={styles.butCont} style={styles.button}>Resend Code</Button>                 
                     </View>
                         
-            </View>
+            </KeyboardAvoidingView>
             </ImageBackground>
         )
     }
@@ -96,7 +130,7 @@ const styles = StyleSheet.create({
     code: {
         display: 'flex',
         alignItems: 'center',
-        marginTop: '15%'
+        marginTop: '8%'
     },
     button: {
         margin: '3%',
