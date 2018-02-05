@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Dimensions, Picker, BackHandler, KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { View, Text, Image, StyleSheet, ImageBackground, AsyncStorage, TextInput, TouchableOpacity, Dimensions, Picker, BackHandler, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import CodeInput from 'react-native-confirmation-code-input';
@@ -12,6 +12,26 @@ export default class Verify extends Component{
             token: '' 
         }
     }
+
+    async store(payload){
+        try {
+            
+            await AsyncStorage.setItem('#1THRU3#',payload).then((val)=>{
+                if(val){
+                    console.log({"stored item error":val})
+                    
+                }
+                else{
+                    console.log({SUCCESS: payload})
+                    this.authUser = payload
+                }
+            })
+            
+          } catch (error) {
+            console.log('err', error)
+          }
+    }
+         
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
@@ -28,9 +48,9 @@ export default class Verify extends Component{
         Actions.pop();
         return true;
       }
-      verify = (code) => {
+      async verify(code) {
           console.log("called", code, this.props.data)
-
+          this.store("this.props.data")
         var params = new URLSearchParams();
         params.append('user_id', this.props.data);
         params.append('token', code);
@@ -39,6 +59,7 @@ export default class Verify extends Component{
             console.log({VerifyRes:response})
             if(response.data.status !== 'false') {
                 console.log(response)
+                this.store(this.props.data)
                Actions.home()
                console.log(code)
             }

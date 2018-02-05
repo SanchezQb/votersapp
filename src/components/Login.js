@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, BackHandler} from 'react-native'
+import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, BackHandler, ToastAndroid} from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
 import Button from 'react-native-button'
 import { Actions } from 'react-native-router-flux'
 import DatePicker from 'react-native-datepicker'
 import data  from './StateData'
 import axios from 'axios'
+var URLSearchParams = require('url-search-params');
 
 export default class Login extends Component{
     constructor(){
@@ -36,34 +37,22 @@ export default class Login extends Component{
        BackHandler.exitApp()
       }
       signup() {
-
-            var params = new URLSearchParams();
-            params.append('name', 'femi');
-            params.append('gender', 'Male');
-            params.append('email', 'fboy@ymail.com');
-            params.append('state', 'Edo');
-            params.append('mobile', '08011122233');
-            params.append('dob', '2005-02-02');
-            params.append('upline', 'david');
-            axios.post('http://api.atikuvotersapp.org/addusers', params)
-            .then(response => {
-                if(response.data.status == 'true') {
-                    this.setState({
-                        id: response.data.details
-                    })
-                    console.log(this.state.id)
-                    Actions.verify({data: this.state.id})
-
-                }
-                else {
-                    this.setState({
-                        message: response.data.message
-                    })
-                    console.log({else:response})
-                }
-                
-            })
-            .catch(err => console.log(err)) 
+        return fetch('http://api.atikuvotersapp.org/addusers', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/x-www-form-urlencoded',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+                gender: this.state.gender,
+                email: this.state.email,
+                state: this.state.state,
+                mobile:  this.state.mobile,
+                dob:  this.state.dob,
+                upline:  this.state.upline
+            }),
+          }).then(response => console.log(response))
       }
     render(){
         const items = this.state.data.map((item, i) => {
