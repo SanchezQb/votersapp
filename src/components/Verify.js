@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import CodeInput from 'react-native-confirmation-code-input';
 import axios from 'axios'
+import 'url-search-params-polyfill';
 
 export default class Verify extends Component{
     constructor() {
@@ -52,7 +53,7 @@ export default class Verify extends Component{
           console.log("called", code, this.props.data)
           this.store("this.props.data")
         var params = new URLSearchParams();
-        params.append('user_id', this.props.data);
+        params.append('user_id', this.props.data[0]);
         params.append('token', code);
         axios.post('http://api.atikuvotersapp.org/verifytoken', params)
         .then(response => {
@@ -60,7 +61,7 @@ export default class Verify extends Component{
             if(response.data.status !== 'false') {
                 console.log(response)
                 this.store(this.props.data)
-               Actions.home()
+               Actions.home({data: [this.props.data[0], this.props.data[1]]})
                console.log(code)
             }
             else {

@@ -26,6 +26,7 @@ const data = [
 
 ]
 export default class Guide extends Component {
+   
   render() {
     return (
         <StyleProvider style={getTheme(material)}>

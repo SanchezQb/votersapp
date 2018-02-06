@@ -5,11 +5,22 @@ import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Actions } from 'react-native-router-flux'
-import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native'
+import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, ScrollView , BackHandler} from 'react-native'
 
 
 export default class Home extends Component {
+    componentDidMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+      }
     
+      componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+      }
+    
+      onBackPress () {
+       BackHandler.exitApp()
+      }
+  
   render() {
     console.log(this.props.data)
     return (

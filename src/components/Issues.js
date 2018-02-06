@@ -7,6 +7,7 @@ import Button from 'react-native-button'
 import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, TextInput, BackHandler, ToastAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
+import 'url-search-params-polyfill';
 
 class Issues extends Component {
     constructor() {

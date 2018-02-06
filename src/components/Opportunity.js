@@ -6,6 +6,7 @@ import material from '../../native-base-theme/variables/material';
 import { View, Text, StyleSheet, Image, Picker, TouchableOpacity, ToastAndroid, Dimensions } from 'react-native'
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { Actions } from 'react-native-router-flux'
+import 'url-search-params-polyfill';
 
 export default class Opportunity extends Component{
     
@@ -105,10 +106,10 @@ export default class Opportunity extends Component{
                             <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
                         </Body>  
                     </Header>
-                            <View style = {styles.container}> 
-                                <Text style = {styles.info} > OPPORTUNITY CENTER </Text>
-                                <View style = {styles.content}> 
-                                    <View style = {styles.top}> 
+                    <View style = {styles.container}> 
+                        <Text style = {styles.info} > OPPORTUNITY CENTER </Text>
+                        <View style = {styles.content}> 
+                            <View style = {styles.top}> 
                                         <View style = {styles.pickJ} >
                                         
                                             <Image style = {styles.Jimg1} source = {require('../img/icons-13.png')} />
@@ -123,11 +124,11 @@ export default class Opportunity extends Component{
                                                 </View>
                                             
                                             <View style={styles.file} >
-                                                <Text> File :</Text>
+                                                <Text style={styles.filec}> File :</Text>
                                                 <TouchableOpacity style = {styles.chooseF} onPress={this.pickFIle.bind(this)} >
-                                                    <Text> Choose File  </Text>
+                                                    <Text style={styles.filec}> Choose File  </Text>
                                                 </TouchableOpacity>
-                                                <Text> {this.state.choosen? 'file selected': 'No file selected'} </Text>
+                                                <Text style={styles.filec}> {this.state.choosen? 'file selected': 'No file selected'} </Text>
                                             </View>
                                             <TouchableOpacity style={styles.submitCv} onPress={() => {
                                                 ToastAndroid.show('Submitted', ToastAndroid.SHORT)
@@ -148,20 +149,19 @@ export default class Opportunity extends Component{
                                         <View style = {styles.bottomB}>
                                             <Text> Submit Your Idea </Text>
                                             <View style={styles.file} >
-                                                <Text> File : </Text>
+                                                <Text  style={styles.filec}> File : </Text>
                                                 <TouchableOpacity style = {styles.chooseF} onPress={this.pickFIle2.bind(this)} >
-                                                    <Text> Choose File  </Text>
+                                                    <Text style={styles.filec}> Choose File  </Text>
                                                 </TouchableOpacity>
-                                                <Text>  {this.state.choosenb? 'file selected': 'No file selected'}  </Text>
+                                                <Text style={styles.filec}>  {this.state.choosenb? 'file selected': 'No file selected'}  </Text>
                                             </View>
                                             <TouchableOpacity style={styles.submitCv} onPress={() => {
                                                 ToastAndroid.show('Submitted', ToastAndroid.SHORT)
                                                 Actions.home()
-                                            }}>t
+                                            }}>
                                                 <Text style={styles.submitCvT}> Submit Idea </Text>
                                             </TouchableOpacity>
                                         </View>
-
                                     </View>
                                 </View>
                                 <AdMobBanner
@@ -170,12 +170,14 @@ export default class Opportunity extends Component{
                                     adUnitID="ca-app-pub-6762059104295133/6487243342"
                                 />
                             </View>
+
+                    
+                            
             </Container>
             </StyleProvider>
         )
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         marginTop: '6%',
@@ -194,17 +196,18 @@ const styles = StyleSheet.create({
         height:  (( Dimensions.get('window').height) * 0.025),
         marginTop: '9%',
         marginLeft: '4%'
-
     },
     content:{
         height: 80+ '%',
         width: 100+ '%'
-
     },
     top: {
         backgroundColor: '#ecf0f1',
          height: 60+ '%',
         width: 100+ '%'
+    },
+    filec: {
+        color: '#000'
     },
         pickJ: {
             display: 'flex',
@@ -214,7 +217,6 @@ const styles = StyleSheet.create({
             alignItems: 'center',
             borderBottomWidth: 1,
             borderBottomColor: '#fff'
-
         },
         partb: {
             display: 'flex',
@@ -235,6 +237,7 @@ const styles = StyleSheet.create({
             alignItems: 'center'
         },
         cvT: {
+            color: '#222',
             textAlign: 'center',
             fontSize: 18
         },
@@ -243,9 +246,8 @@ const styles = StyleSheet.create({
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            margin: 10
-
-
+            margin: 10,
+           
         },
         chooseF: {
             backgroundColor: '#fff',
@@ -285,13 +287,13 @@ const styles = StyleSheet.create({
         
     },
     text: {
+        color: '#000',
         fontSize: 20,
         fontWeight: 'bold'
     },
     bottomB: {
         display: 'flex',
         alignItems: 'center',
-
     },
     banner: {
         opacity: 0,

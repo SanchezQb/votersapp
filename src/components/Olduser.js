@@ -4,6 +4,7 @@ import React, { Component } from 'react';
  import Button from 'react-native-button'
  import { Actions } from 'react-native-router-flux'
  import DatePicker from 'react-native-datepicker'
+ import 'url-search-params-polyfill';
  
  export default class Login extends Component{
      constructor(){

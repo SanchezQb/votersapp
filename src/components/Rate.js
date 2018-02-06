@@ -8,6 +8,7 @@ import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, 
 import { Actions } from 'react-native-router-flux'
 import StarRating from 'react-native-star-rating'
 import axios from 'axios'
+import 'url-search-params-polyfill';
 
 
 class Rate extends Component {

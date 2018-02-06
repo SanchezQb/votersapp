@@ -56,11 +56,13 @@ export default class App extends Component<{}> {
           />
         <Router titleStyle={{color: '#fff'}} sceneStyle={{backgroundColor: '#fff'}}>
           <Scene key="root">
-            <Stack>
+            <Stack key="signup">
               <Scene key="loader" component={Loader} title="Loader" hideNavBar= {true} />
               <Scene key="login" component={Login} title="Login" hideNavBar= {true} />
-              <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
+              <Scene key="olduser" component={Olduser} title="Olduser" hideNavBar= {true} />
             </Stack>
+             
+            
           <Drawer
               hideNavBar
               key="drawer"
@@ -69,11 +71,10 @@ export default class App extends Component<{}> {
               drawerImage={MenuIcon}
               hideDrawerButton={false}
             >
-            <Stack>
-              <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
-              <Scene key="olduser" component={Olduser} title="Olduser" hideNavBar= {true} />
-              <Scene key="promise" component={Promise} title="Promise" hideNavBar= {true} />
+            <Stack key="main">
               <Scene key="home" component={Home} title="Home" hideNavBar= {true} />
+              <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
+              <Scene key="promise" component={Promise} title="Promise" hideNavBar= {true} />
               <Scene key="campaign" component={Campaign} title="Campaign" hideNavBar= {true} />
               <Scene key="manifest" component={Manifest} title="Manifest" hideNavBar= {true} />
               <Scene key="guide" component={Guide} title="Guide" hideNavBar= {true} />
@@ -83,7 +84,7 @@ export default class App extends Component<{}> {
               <Scene key="pvc" component={Pvc} title="Pvc" hideNavBar= {true} />
               <Scene key="opportunity" component={Opportunity} title="Opportunity" hideNavBar= {true} />
             </Stack>
-            </Drawer>
+          </Drawer>
 
           </Scene>
         </Router>

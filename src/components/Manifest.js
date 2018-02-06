@@ -7,6 +7,7 @@ import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, 
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import axios from 'axios'
+import 'url-search-params-polyfill';
 
 class Manifest extends Component {
     constructor() {
@@ -92,34 +93,33 @@ class Manifest extends Component {
                         <Text style={styles.topic} > ADD YOUR MANIFEST </Text>
                         <Content>
                             <ListItem>
-                                <CheckBox value={this.state.checked} 
+                                <CheckBox style={styles.checkbox}value={this.state.checked} 
                                 onChange={() => this.changeCheckValue()}/>
                                 <Body>
-                                <Text>Job Creation</Text>
+                                <Text style={styles.checks}>Job Creation</Text>
                                 </Body>
                             </ListItem>
                             <ListItem>
-                                <CheckBox value={this.state.checked2} 
+                                <CheckBox  style={styles.checkbox} value={this.state.checked2} 
                                 onChange={() => this.changeCheckValue2()}/>
                                 <Body>
-                                <Text>Business Financing</Text>
+                                <Text style={styles.checks}>Business Financing</Text>
                                 </Body>
                             </ListItem>
                             <ListItem>
-                                <CheckBox value={this.state.checked3} 
+                                <CheckBox  style={styles.checkbox}  value={this.state.checked3} 
                                 onChange={() => this.changeCheckValue3()}/>
                                 <Body>
-                                <Text>Others</Text>
+                                <Text style={styles.checks}>Others</Text>
                                 </Body>
                             </ListItem>
                                 <TextInput
-                                style={styles.input} 
                                 multiline = {true}
                                 numberOfLines = {8}
                                 onChangeText={(other) => this.setState({other})}
                                 underlineColorAndroid={'transparent'}
                                 style= { styles.input }
-                
+                                placeholderTextColor={'#000'}
                                 placeholder = { 'Additional information'}
                             />
                             <Content style={styles.content}>
@@ -149,11 +149,15 @@ const styles = StyleSheet.create({
         marginLeft: '4%'
 
     },
+    
     topic: {
         color: '#008841',
         fontSize: (( Dimensions.get('window').height) * 0.025),
         marginTop: '5%',
         alignSelf: 'center' 
+    },
+    checks: {
+        color: '#000'
     },
     box:{
         flex: 1,
@@ -165,6 +169,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     input: {
+        color: '#000',
         marginTop: '3%',
         borderWidth: 1,
         borderColor: '#999',

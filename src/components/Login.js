@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import DatePicker from 'react-native-datepicker'
 import data  from './StateData'
 import axios from 'axios'
-var URLSearchParams = require('url-search-params');
+import 'url-search-params-polyfill';
 
 export default class Login extends Component{
     constructor(){
@@ -37,22 +37,36 @@ export default class Login extends Component{
        BackHandler.exitApp()
       }
       signup() {
-        return fetch('http://api.atikuvotersapp.org/addusers', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/x-www-form-urlencoded',
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify({
-                name: this.state.name,
-                gender: this.state.gender,
-                email: this.state.email,
-                state: this.state.state,
-                mobile:  this.state.mobile,
-                dob:  this.state.dob,
-                upline:  this.state.upline
-            }),
-          }).then(response => console.log(response))
+        var params = new URLSearchParams();
+        params.append('name', this.state.name);
+        params.append('gender', this.state.gender);
+        params.append('email', this.state.email);
+        params.append('state', this.state.state);
+        params.append('mobile', this.state.mobile);
+        params.append('dob', this.state.dob);
+        params.append('upline', this.state.upline);
+        axios.post('http://api.atikuvotersapp.org/addusers', params)
+        .then(response => {
+            if(response.data.status == 'true') {
+                this.setState({
+                    id: response.data.details
+                })
+                console.log(this.state.id)
+                Actions.verify({data: [this.state.id, this.state.name]})
+                console.log(response)
+            }
+            else {
+                this.setState({
+                    message: response.data.message
+                })
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT)
+                console.log({else:response})
+
+            }
+            
+        })
+        .catch(err => console.log(err)) 
+
       }
     render(){
         const items = this.state.data.map((item, i) => {
@@ -167,7 +181,7 @@ export default class Login extends Component{
                         }} containerStyle={styles.butCont} style={styles.button}>Sign Up</Button>
                     </Content>
                     <Content>
-                        <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>
+                        <Text style={styles.olduser}onPress={() => Actions.verify()}>Already a user? Verify phone number here</Text>
                     </Content>
                     
             </View>
