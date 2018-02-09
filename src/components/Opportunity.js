@@ -3,7 +3,7 @@ import { AdMobBanner } from 'react-native-admob'
 import { StyleProvider, Container, Header, Left, Body, Title,  Content } from 'native-base'
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
-import { View, Text, StyleSheet, Image, Picker, TouchableOpacity, ToastAndroid, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Image, Picker, TouchableOpacity, ToastAndroid, Dimensions, BackHandler } from 'react-native'
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { Actions } from 'react-native-router-flux'
 import 'url-search-params-polyfill';
@@ -19,6 +19,20 @@ export default class Opportunity extends Component{
             filePath: ''
         }
     }
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        }
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+      }
+       onBackPress () {
+        if (Actions.state.index === 0) {
+          return false;
+        }
+
+        Actions.pop();
+        return true;
+      }
     
     pickFIle(){
         DocumentPicker.show({
@@ -72,7 +86,7 @@ export default class Opportunity extends Component{
                 ToastAndroid.SHORT,
                 
               );
-              const split = res.uri.split('/');
+            const split = res.uri.split('/');
             const name = split.pop();
             const inbox = split.pop();
               this.setState({
@@ -89,6 +103,15 @@ export default class Opportunity extends Component{
             console.log({split: split, name: name, inbox: inbox})
           });
      
+    }
+    submit() {
+        if(this.state.filePath == '') {
+            ToastAndroid.show('Please select a file to upload', ToastAndroid.SHORT)
+        }
+        else {
+            ToastAndroid.show('Submitted', ToastAndroid.SHORT)
+            Actions.pop()
+        }
     }
 
     render(){
@@ -130,10 +153,7 @@ export default class Opportunity extends Component{
                                                 </TouchableOpacity>
                                                 <Text style={styles.filec}> {this.state.choosen? 'file selected': 'No file selected'} </Text>
                                             </View>
-                                            <TouchableOpacity style={styles.submitCv} onPress={() => {
-                                                ToastAndroid.show('Submitted', ToastAndroid.SHORT)
-                                                Actions.home()
-                                            }}>
+                                            <TouchableOpacity style={styles.submitCv} onPress={() => this.submit()}>
                                                 <Text style={styles.submitCvT}> Submit CV </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -142,12 +162,11 @@ export default class Opportunity extends Component{
                                         <View style = {styles.bottomA} > 
                                             <Image style = {styles.Jimg1} source = {require('../img/icons-14.png')} />
                                             <View>
-                                                <Text style ={styles.text} > Business Capital For </Text>
-                                                <Text style ={styles.text} >  Nigerians </Text>
+                                                <Text style ={styles.text} > Business Capital For Nigerians</Text>
                                             </View>
                                         </View>
                                         <View style = {styles.bottomB}>
-                                            <Text> Submit Your Idea </Text>
+                                            <Text style = {styles.cvT} > Submit Your CV</Text>
                                             <View style={styles.file} >
                                                 <Text  style={styles.filec}> File : </Text>
                                                 <TouchableOpacity style = {styles.chooseF} onPress={this.pickFIle2.bind(this)} >
@@ -155,10 +174,7 @@ export default class Opportunity extends Component{
                                                 </TouchableOpacity>
                                                 <Text style={styles.filec}>  {this.state.choosenb? 'file selected': 'No file selected'}  </Text>
                                             </View>
-                                            <TouchableOpacity style={styles.submitCv} onPress={() => {
-                                                ToastAndroid.show('Submitted', ToastAndroid.SHORT)
-                                                Actions.home()
-                                            }}>
+                                            <TouchableOpacity style={styles.submitCv} onPress={() => this.submit()}>
                                                 <Text style={styles.submitCvT}> Submit Idea </Text>
                                             </TouchableOpacity>
                                         </View>

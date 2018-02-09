@@ -6,13 +6,23 @@ import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, 
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import { Share } from 'react-native'
+import axios from 'axios'
 
 class Refer extends Component {
     constructor() {
         super()
         this.state = {
-            text: 'djnjnfg'
+            text: ''
         }
+    }
+    componentWillMount() {
+        axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}`)
+        .then(response => { 
+                this.setState({
+                    text: response.data.message[0].mylink,
+                })
+          console.log(response)
+      })
     }
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
@@ -34,7 +44,7 @@ class Refer extends Component {
       };
       _shareTextMessage () {
         Share.share({
-          message: 'Such sharing! Much wow!'
+          message: "Download Atiku's Voters App from the Google Play Store. Go to https://play.google.com/store/apps/details?id=com.votersapp"
         })
         .then((result) => console.log(result))
         .catch(err => console.log(err))
@@ -55,9 +65,9 @@ class Refer extends Component {
                         </Header>
                         <Text style={styles.topic} > REFER A FRIEND </Text>
                         <Content style={styles.content}>
-                           <Text style={styles.subtopic}>Your Referral Link</Text>
-                           <Text style={styles.subtopic2}>vjcbhjb</Text>
-                           <Button onPress={() => this.writeToClipboard()} containerStyle={styles.butCont} style={styles.button}>Share</Button>
+                           <Text style={styles.subtopic}>Your Referral Code</Text>
+                           <Text style={styles.subtopic2}>{this.state.text}</Text>
+                           <Button onPress={() => this.writeToClipboard()} containerStyle={styles.butCont} style={styles.button}>Copy</Button>
                         </Content>
                         <Content style={styles.shareContent}>
                             <Image source={require('../img/icons-24.png')} style={styles.logo}/>
@@ -106,7 +116,8 @@ const styles = StyleSheet.create({
     },
     subtopic: {
         alignSelf: 'center',
-        fontSize:  (( Dimensions.get('window').height) * 0.023)
+        fontSize:  (( Dimensions.get('window').height) * 0.023),
+        color: '#000'
     },
     subtopic2: {
         fontSize:  (( Dimensions.get('window').height) * 0.023),

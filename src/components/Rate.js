@@ -4,7 +4,7 @@ import { StyleProvider, Container, Header, Left, Body, Title, Right, ListItem, C
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import Button from 'react-native-button'
-import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, TextInput, ToastAndroid } from 'react-native'
+import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, CheckBox, TextInput, ToastAndroid, BackHandler } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import StarRating from 'react-native-star-rating'
 import axios from 'axios'
@@ -18,6 +18,20 @@ class Rate extends Component {
             starCount: 0
         }
     }
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        }
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+      }
+       onBackPress () {
+        if (Actions.state.index === 0) {
+          return false;
+        }
+
+        Actions.pop();
+        return true;
+      }
     
     onStarRatingPress(rating) {
         this.setState({
@@ -28,7 +42,7 @@ class Rate extends Component {
 
         var params = new URLSearchParams();
         params.append('rate', this.state.starCount);
-        params.append('user_id', '60');
+        params.append('user_id', this.props.data.id);
         axios.post('http://api.atikuvotersapp.org/rate', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -37,7 +51,7 @@ class Rate extends Component {
                 })
                 console.log(this.state.id)
                 ToastAndroid.show('Rated', ToastAndroid.SHORT);
-                Actions.home()
+                Actions.pop()
                 console.log(response)
             }
             else {

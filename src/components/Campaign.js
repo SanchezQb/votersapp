@@ -59,7 +59,7 @@ class Campaign extends Component {
                             placeholder={'Email Address'}
                             multiline={false}
                         />
-                           <Button onPress={() => this.submitmail()} containerStyle={styles.butCont} style={styles.button}>Submit</Button>
+                           <Button onPress={() => this.submitmail()} containerStyle={styles.butCont} style={styles.button}>Join</Button>
                         </Content>
                     </Container>
                 </StyleProvider>

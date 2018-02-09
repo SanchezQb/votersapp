@@ -1,22 +1,66 @@
 import React, { Component } from 'react';
- import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker} from 'react-native'
+ import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, ToastAndroid} from 'react-native'
  import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
  import Button from 'react-native-button'
  import { Actions } from 'react-native-router-flux'
  import DatePicker from 'react-native-datepicker'
  import 'url-search-params-polyfill';
+ import axios from 'axios'
  
  export default class Login extends Component{
      constructor(){
          super();
          this.state = {
-             gender: '',
-             residence: '',
-             userId: ''
+            mobile: '',
+            id: ''
          }
      }
+     componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        }
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+      }
+
+       onBackPress () {
+        if (Actions.state.index === 0) {
+          return false;
+        }
+
+        Actions.olduser();
+        return true;
+      }
+
+     signin() {
+        var params = new URLSearchParams();
+        params.append('mobile', this.state.mobile);
+        axios.put('http://api.atikuvotersapp.org/signin', params)
+        .then(response => {
+            console.log(response)
+            if(response.data.status !== 'false') {
+                this.setState({
+                    id: response.data.details
+                })
+                console.log(response.data.details)
+                Actions.verify2({data: this.state})
+                console.log(response)
+            }
+            else {
+                this.setState({
+                    message: response.data.message
+                })
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT)
+                console.log({else:response})
+
+            }
+            
+        })
+        .catch(err => console.log(err)) 
+
+      }
  
      render(){
+         console.log(this.state)
          return(
              <ImageBackground source={require('../img/bg-32.png')} style={styles.bgImg} >
              <View style={styles.container}>
@@ -25,7 +69,7 @@ import React, { Component } from 'react';
                          <TextInput
                              style={styles.input}
                              placeholderTextColor= {'#fff'}
-                             // onChangeText={(text) => this.setState({userId: text})}
+                             onChangeText={(text) => this.setState({mobile: text})}
                              onSubmitEditing={Keyboard.dismiss}
                              fontSize= {18}
                              fontFamily= 'Roboto'
@@ -35,7 +79,7 @@ import React, { Component } from 'react';
                              multiline={false}
                          />
                     <View style={styles.buttonContainer}>
-                         <Button onPress={() => Actions.home()} containerStyle={styles.butCont} style={styles.button}>Verify</Button>
+                         <Button onPress={() => this.signin()} containerStyle={styles.butCont} style={styles.button}>Verify</Button>
                      </View>
                  </View>
              </View>

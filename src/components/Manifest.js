@@ -54,7 +54,7 @@ class Manifest extends Component {
         params.append('jobs', this.state.checked);
         params.append('business', this.state.checked2);
         params.append('others', this.state.other);
-        params.append('user_id', '60');
+        params.append('user_id', this.props.data.id);
         axios.post('http://api.atikuvotersapp.org/addmanifest', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -77,6 +77,7 @@ class Manifest extends Component {
         .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
   }
     render() {
+        console.log(this.props.data.id)
         return (
                 <StyleProvider style={getTheme(material)}>
                     <Container style={styles.container}>
@@ -157,7 +158,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center' 
     },
     checks: {
-        color: '#000'
+        color: '#000',
+        marginLeft: '1%'
     },
     box:{
         flex: 1,
@@ -201,6 +203,9 @@ const styles = StyleSheet.create({
         opacity: 0,
         position: 'absolute',
         bottom: -200
+    },
+    checkbox: {
+        backgroundColor: '#999'
     }
 
 

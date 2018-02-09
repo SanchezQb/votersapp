@@ -55,7 +55,7 @@ class Issues extends Component {
         params.append('security', this.state.checked2);
         params.append('electricity', this.state.checked3);
         params.append('others', this.state.other);
-        params.append('user_id', '60');
+        params.append('user_id', this.props.data.id);
         axios.post('http://api.atikuvotersapp.org/addnationalissue', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -94,24 +94,24 @@ class Issues extends Component {
                     <Text style={styles.topic} > NATIONAL ISSUES</Text>
                     <Content>
                         <ListItem>
-                            <CheckBox value={this.state.checked} 
+                            <CheckBox style={styles.checkbox}value={this.state.checked} 
                             onChange={() => this.changeCheckValue()}/>
                             <Body>
-                            <Text>Unemployment</Text>
+                            <Text style={styles.text}>Unemployment</Text>
                             </Body>
                         </ListItem>
                         <ListItem>
-                            <CheckBox value={this.state.checked2} 
+                            <CheckBox style={styles.checkbox} value={this.state.checked2} 
                             onChange={() => this.changeCheckValue2()}/>
                             <Body>
-                            <Text>Security</Text>
+                            <Text style={styles.text}>Security</Text>
                             </Body>
                         </ListItem>
                         <ListItem>
-                            <CheckBox value={this.state.checked3} 
+                            <CheckBox style={styles.checkbox} value={this.state.checked3} 
                             onChange={() => this.changeCheckValue3()}/>
                             <Body>
-                            <Text>Electricity</Text>
+                            <Text style={styles.text}>Electricity</Text>
                             </Body>
                         </ListItem>
                             <TextInput
@@ -121,6 +121,7 @@ class Issues extends Component {
                             onChangeText={(other) => this.setState({other})}
                             underlineColorAndroid={'transparent'}
                             style= { styles.input }
+                            placeholderTextColor = {"#000"}
                             placeholder = { 'Additional information'}
                         />
                          <Content style={styles.content}>
@@ -160,11 +161,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
         
     },
+    text: {
+        color: '#000',
+        marginLeft: '1%'
+    },
+    checkbox: {
+        backgroundColor: '#999'
+    },
     check: {
         display: 'flex',
         flexDirection: 'row'
     },
     input: {
+        color: '#000',
         marginTop: '3%',
         borderWidth: 1,
         borderColor: '#999',

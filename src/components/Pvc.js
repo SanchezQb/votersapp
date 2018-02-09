@@ -145,12 +145,15 @@ const styles = StyleSheet.create({
 
     },
     info: {
+        color: '#000',
         marginTop: '15%',
         fontSize: (( Dimensions.get('window').height) * 0.026)
     },
     subinfo: {
+        color: '#000',
         fontSize: (( Dimensions.get('window').height) * 0.018),
-        marginTop: '1%'
+        marginTop: '1%',
+        marginLeft: '1%'
     },
     banner: {
         opacity: 0,

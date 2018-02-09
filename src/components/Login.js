@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, BackHandler, ToastAndroid} from 'react-native'
+import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, BackHandler, ToastAndroid, ScrollView} from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
 import Button from 'react-native-button'
 import { Actions } from 'react-native-router-flux'
@@ -19,7 +19,6 @@ export default class Login extends Component{
            email: '',
            dob: '',
            upline: '',
-           data: data,
            id: '',
            message: ''
 
@@ -52,7 +51,7 @@ export default class Login extends Component{
                     id: response.data.details
                 })
                 console.log(this.state.id)
-                Actions.verify({data: [this.state.id, this.state.name]})
+                Actions.verify({data: this.state})
                 console.log(response)
             }
             else {
@@ -69,15 +68,17 @@ export default class Login extends Component{
 
       }
     render(){
-        const items = this.state.data.map((item, i) => {
+        const items = data.map((item, i) => {
             return (
                 <Picker.Item color='#fff' label={item.name} value={item.name.toLowerCase()} key={item.id} />
             )
         })
         return(
             <ImageBackground source={require('../img/bg-32.png')} style={styles.bgImg} >
+
             <View style={styles.container}>
                 <Image source={require('../img/icons-24.png')} style={styles.logo}/>
+                <ScrollView>
                     <TextInput
                             style={styles.input}
                             placeholderTextColor= {'#fff'}
@@ -181,9 +182,9 @@ export default class Login extends Component{
                         }} containerStyle={styles.butCont} style={styles.button}>Sign Up</Button>
                     </Content>
                     <Content>
-                        <Text style={styles.olduser}onPress={() => Actions.verify()}>Already a user? Verify phone number here</Text>
+                        <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>
                     </Content>
-                    
+                </ScrollView>      
             </View>
             </ImageBackground>
         )
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
       },
       olduser: {
         color: '#fff',
-        marginTop: '3%',
+        marginBottom: '3%',
         alignSelf: 'center',
         fontSize:  (( Dimensions.get('window').height) * 0.023)
       }

@@ -23,9 +23,11 @@ import Promise from './src/components/Promise'
 import Campaign from './src/components/Campaign'
 import Guide from './src/components/Guide'
 import Verify from './src/components/Verify'
+import Verify2 from './src/components/Verify2'
 import Loader from './src/components/Loader'
 import Pvc from './src/components/Pvc'
 import Home from './src/components/Home'
+import Chat from './src/components/Chat'
 import DrawerContent from './src/DrawerContent'
 import OneSignal from 'react-native-onesignal'
 import MenuIcon from './src/img/icons-02.png';
@@ -34,7 +36,6 @@ import MenuIcon from './src/img/icons-02.png';
 export default class App extends Component<{}> {
 
   componentDidMount () {
-    OneSignal.configure({})
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
 
@@ -73,7 +74,9 @@ export default class App extends Component<{}> {
             >
             <Stack key="main">
               <Scene key="home" component={Home} title="Home" hideNavBar= {true} />
+              <Scene key="chat" component={Chat} title="Chat" hideNavBar= {true} />
               <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
+              <Scene key="verify2" component={Verify2} title="Verify2" hideNavBar= {true} />
               <Scene key="promise" component={Promise} title="Promise" hideNavBar= {true} />
               <Scene key="campaign" component={Campaign} title="Campaign" hideNavBar= {true} />
               <Scene key="manifest" component={Manifest} title="Manifest" hideNavBar= {true} />

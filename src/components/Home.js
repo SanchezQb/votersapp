@@ -36,7 +36,7 @@ export default class Home extends Component {
                     <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
                 </Body>  
             </Header>
-            <Image source={require('../img/location.jpg')} style={styles.dp}/>
+            <Image source={require('../img/icons-24.png')} style={styles.dp}/>
             <Content>
                 <Grid style={styles.grid}>
                         <TouchableOpacity onPress={()=> Actions.guide()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
@@ -49,27 +49,27 @@ export default class Home extends Component {
                         </TouchableOpacity> 
                 </Grid>
                 <Grid style={styles.grid}>
-                    <TouchableOpacity onPress={()=> Actions.manifest()} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.manifest({data: this.props.data.id})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-16.png')} />
                         <Text style = {styles.info} > Add Manifest</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> Actions.issues()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.issues({data: this.props.data.id})} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-17.png')} />
                         <Text style = {styles.info} > National Issues </Text>
                     </TouchableOpacity> 
                 </Grid>
                 <Grid style={styles.grid}>
-                    <TouchableOpacity onPress={()=> Actions.chat()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.chat({data: this.props.data})} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-18.png')} />
                         <Text style = {styles.info} > Chat with Atiku </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> Actions.rate()} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.rate({data: this.props.data.id})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-19.png')} />
                         <Text style = {styles.info} > Rate Atiku </Text>
                     </TouchableOpacity> 
                 </Grid>
                 <Grid style={styles.grid}>
-                    <TouchableOpacity onPress={()=> Actions.opportunity()} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.opportunity({data: this.props.data.id})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-20.png')} />
                         <Text style = {styles.info} > Opportunity Center </Text>
                     </TouchableOpacity>
@@ -79,11 +79,12 @@ export default class Home extends Component {
                     </TouchableOpacity> 
                 </Grid>
                 <Grid style={styles.grid}>
-                    <TouchableOpacity onPress={()=> Actions.campaign()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.campaign({data: this.props.data.id})} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-25.png')} />
-                        <Text style = {styles.info} > Join the Atiku Campaign </Text>
+                        <Text style = {styles.info} > Join the Atiku </Text>
+                        <Text style = {styles.info} > Campaign</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> Actions.refer()} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
+                    <TouchableOpacity onPress={()=> Actions.refer({data: this.props.data})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                         <Image style={styles.img}source = {require('../img/icons-09.png')} />
                         <Text style = {styles.info} > Refer a friend to </Text>
                         <Text style = {styles.info} > get Recharge card </Text>
