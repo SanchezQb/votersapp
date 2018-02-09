@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
- import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, ToastAndroid} from 'react-native'
+ import { View, Text, Image, StyleSheet, ImageBackground, TextInput, Keyboard, TouchableOpacity, Dimensions, Picker, ToastAndroid, BackHandler} from 'react-native'
  import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
  import Button from 'react-native-button'
  import { Actions } from 'react-native-router-flux'
@@ -12,7 +12,8 @@ import React, { Component } from 'react';
          super();
          this.state = {
             mobile: '',
-            id: ''
+            id: '',
+            disabled: false
          }
      }
      componentDidMount() {
@@ -27,19 +28,20 @@ import React, { Component } from 'react';
           return false;
         }
 
-        Actions.olduser();
+        Actions.login();
         return true;
       }
 
      signin() {
         var params = new URLSearchParams();
         params.append('mobile', this.state.mobile);
+        this.setState({disabled: true})
         axios.put('http://api.atikuvotersapp.org/signin', params)
         .then(response => {
             console.log(response)
             if(response.data.status !== 'false') {
                 this.setState({
-                    id: response.data.details
+                    id: response.data.details,
                 })
                 console.log(response.data.details)
                 Actions.verify2({data: this.state})
@@ -47,7 +49,8 @@ import React, { Component } from 'react';
             }
             else {
                 this.setState({
-                    message: response.data.message
+                    message: response.data.message,
+                    disabled: false
                 })
                 ToastAndroid.show(response.data.message, ToastAndroid.SHORT)
                 console.log({else:response})
@@ -79,7 +82,12 @@ import React, { Component } from 'react';
                              multiline={false}
                          />
                     <View style={styles.buttonContainer}>
-                         <Button onPress={() => this.signin()} containerStyle={styles.butCont} style={styles.button}>Verify</Button>
+                         <Button onPress={() => this.signin()} 
+                            containerStyle={styles.butCont} 
+                            style={styles.button}
+                            styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                            disabled={this.state.disabled}
+                         >Verify</Button>
                      </View>
                  </View>
              </View>

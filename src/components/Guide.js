@@ -122,13 +122,16 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: '#fff',
         marginBottom: '6%',
-        marginTop: '6%'
+        marginTop: '6%',
+        textAlign: 'center',
+        width: '80%',
     },
     cont: {
         color: '#fff',
         textAlign: 'center',
         width: '80%',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginBottom: '25%'
     }
     
     

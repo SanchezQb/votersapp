@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AdMobBanner } from 'react-native-admob'
-import {StyleProvider, Container, Header, Content, Left, Body, Title } from 'native-base';
+import {StyleProvider, Container, Header, Content, Left, Body, Title, Right } from 'native-base';
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -33,8 +33,13 @@ export default class Home extends Component {
                     </TouchableOpacity>
                 </Left>
                 <Body>
-                    <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
-                </Body>  
+                    <Title style={styles.title}>ATIKU'S VOTERS APP</Title>
+                </Body>
+                <Right>
+                    <TouchableOpacity onPress={() => this. onBackPress()} style={styles.touchable} activeOpacity = {0.8}>
+                        <Image source={require('../img/back.png')} style={styles.open}/>
+                    </TouchableOpacity>    
+                </Right>  
             </Header>
             <Image source={require('../img/icons-24.png')} style={styles.dp}/>
             <Content>
@@ -115,6 +120,12 @@ const styles = StyleSheet.create({
         fontSize: (( Dimensions.get('window').height) * 0.025),
         marginTop: '5%',
         alignSelf: 'center' 
+    },
+    title: {
+        fontSize: (( Dimensions.get('window').height) * 0.024), 
+        position: 'absolute',
+        top: '-18%',
+        left: '26%'
     },
     dp: {
         height: 100,

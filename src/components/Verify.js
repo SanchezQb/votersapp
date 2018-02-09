@@ -10,7 +10,8 @@ export default class Verify extends Component{
     constructor() {
         super()
         this.state = {
-            token: '' 
+            token: '',
+            disabled: false 
         }
     }
 
@@ -73,12 +74,14 @@ export default class Verify extends Component{
         resend() {
         var params = new URLSearchParams();
         params.append('user_id', this.props.data.id);
+        this.setState({disabled: true})
         axios.post('http://api.atikuvotersapp.org/resendverificationcode', params)
         .then(response => {
             if(response.data.status !== 'false') {
                 ToastAndroid.show('Code has been sent', ToastAndroid.SHORT);
             }
             else {
+                this.setState({disabled: false})
                 ToastAndroid.show('Error Sending Code', ToastAndroid.SHORT);
             }
         })
@@ -98,6 +101,7 @@ export default class Verify extends Component{
                     <View style={ styles.code  }> 
                         <CodeInput
                             ref="codeInputRef1"
+                            keyboardType="numeric"
                             secureTextEntry
                             className={'border-b'}
                             codeLength={5}
@@ -116,7 +120,10 @@ export default class Verify extends Component{
                     </View>
                 </View>
                     <View style={styles.buttonContainer}>
-                        <Button onPress={() => this.resend()} containerStyle={styles.butCont} style={styles.button}>Resend Code</Button>                 
+                        <Button onPress={() => this.resend()} containerStyle={styles.butCont}
+                         styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                         disabled={this.state.disabled}
+                        style={styles.button}>Resend Code</Button>                 
                     </View>
                         
             </KeyboardAvoidingView>

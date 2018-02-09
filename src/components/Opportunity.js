@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AdMobBanner } from 'react-native-admob'
-import { StyleProvider, Container, Header, Left, Body, Title,  Content } from 'native-base'
+import { StyleProvider, Container, Header, Left, Body, Title, Content, Right } from 'native-base'
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import { View, Text, StyleSheet, Image, Picker, TouchableOpacity, ToastAndroid, Dimensions, BackHandler } from 'react-native'
@@ -16,7 +16,7 @@ export default class Opportunity extends Component{
             jobs: '',
             choosen: false,
             choosenb: false,
-            filePath: ''
+            filePath: '',
         }
     }
     componentDidMount() {
@@ -126,8 +126,13 @@ export default class Opportunity extends Component{
                             </TouchableOpacity>
                         </Left>
                         <Body>
-                            <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
-                        </Body>  
+                            <Title style={styles.title}>ATIKU'S VOTERS APP</Title>
+                        </Body>
+                        <Right>
+                            <TouchableOpacity onPress={() => Actions.pop()} style={styles.touchable} activeOpacity = {0.8}>
+                                <Image source={require('../img/back.png')} style={styles.open}/>
+                            </TouchableOpacity>    
+                        </Right>  
                     </Header>
                     <View style = {styles.container}> 
                         <Text style = {styles.info} > OPPORTUNITY CENTER </Text>
@@ -216,6 +221,12 @@ const styles = StyleSheet.create({
     content:{
         height: 80+ '%',
         width: 100+ '%'
+    },
+    title: {
+        fontSize: (( Dimensions.get('window').height) * 0.024), 
+        position: 'absolute',
+        top: '-18%',
+        left: '26%'
     },
     top: {
         backgroundColor: '#ecf0f1',

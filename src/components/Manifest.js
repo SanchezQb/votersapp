@@ -16,7 +16,8 @@ class Manifest extends Component {
             checked: false,
             checked2: false,
             checked3: false,
-            other: ''
+            other: '',
+            disabled: false
         }
     }
     componentDidMount() {
@@ -55,6 +56,7 @@ class Manifest extends Component {
         params.append('business', this.state.checked2);
         params.append('others', this.state.other);
         params.append('user_id', this.props.data.id);
+        this.setState({disabled: true})
         axios.post('http://api.atikuvotersapp.org/addmanifest', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -63,13 +65,15 @@ class Manifest extends Component {
                 })
                 console.log(this.state.id)
                 ToastAndroid.show('Done', ToastAndroid.SHORT);
-                Actions.home()
+                Actions.pop()
                 console.log(response)
             }
             else {
                 this.setState({
-                    message: response.data.message
+                    message: response.data.message,
+                    disabled: false
                 })
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
                 
             }
             
@@ -88,8 +92,13 @@ class Manifest extends Component {
                                 </TouchableOpacity>
                             </Left>
                             <Body>
-                                <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
-                            </Body>  
+                                <Title style={styles.title}>ATIKU'S VOTERS APP</Title>
+                            </Body> 
+                            <Right>
+                                <TouchableOpacity onPress={() => Actions.pop()} style={styles.touchable} activeOpacity = {0.8}>
+                                    <Image source={require('../img/back.png')} style={styles.open}/>
+                                </TouchableOpacity>    
+                            </Right> 
                         </Header>
                         <Text style={styles.topic} > ADD YOUR MANIFEST </Text>
                         <Content>
@@ -124,7 +133,10 @@ class Manifest extends Component {
                                 placeholder = { 'Additional information'}
                             />
                             <Content style={styles.content}>
-                                <Button onPress={() => this.submitmanifest()} containerStyle={styles.butCont} style={styles.button}>Submit</Button>
+                                <Button onPress={() => this.submitmanifest()} 
+                                 styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                                 disabled={this.state.disabled}
+                                containerStyle={styles.butCont} style={styles.button}>Submit</Button>
                             </Content>
                             
                             </Content>
@@ -149,6 +161,12 @@ const styles = StyleSheet.create({
         marginTop: '9%',
         marginLeft: '4%'
 
+    },
+    title: {
+        fontSize: (( Dimensions.get('window').height) * 0.024), 
+        position: 'absolute',
+        top: '-18%',
+        left: '26%'
     },
     
     topic: {

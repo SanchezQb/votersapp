@@ -16,7 +16,9 @@ class Issues extends Component {
             checked: false,
             checked2: false,
             checked3: false,
-            other: 'National issue'
+            other: 'National issue',
+            disabled: false
+            
         }
     }
     componentDidMount() {
@@ -56,6 +58,7 @@ class Issues extends Component {
         params.append('electricity', this.state.checked3);
         params.append('others', this.state.other);
         params.append('user_id', this.props.data.id);
+        this.setState({disabled: true})
         axios.post('http://api.atikuvotersapp.org/addnationalissue', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -64,13 +67,15 @@ class Issues extends Component {
                 })
                 console.log(this.state.id)
                 ToastAndroid.show('Done', ToastAndroid.SHORT);
-                Actions.home()
+                Actions.pop()
                 console.log(response)
             }
             else {
                 this.setState({
-                    message: response.data.message
+                    message: response.data.message,
+                    disabled: false
                 })
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
                 
             }
             
@@ -88,13 +93,18 @@ class Issues extends Component {
                             </TouchableOpacity>
                         </Left>
                         <Body>
-                            <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>ATIKU'S VOTERS APP</Title>
-                        </Body>  
+                            <Title style={styles.title}>ATIKU'S VOTERS APP</Title>
+                        </Body>
+                        <Right>
+                            <TouchableOpacity onPress={() => Actions.pop()} style={styles.touchable} activeOpacity = {0.8}>
+                                <Image source={require('../img/back.png')} style={styles.open}/>
+                            </TouchableOpacity>    
+                        </Right>  
                     </Header>
                     <Text style={styles.topic} > NATIONAL ISSUES</Text>
                     <Content>
                         <ListItem>
-                            <CheckBox style={styles.checkbox}value={this.state.checked} 
+                            <CheckBox style={styles.checkbox} value={this.state.checked} 
                             onChange={() => this.changeCheckValue()}/>
                             <Body>
                             <Text style={styles.text}>Unemployment</Text>
@@ -125,7 +135,11 @@ class Issues extends Component {
                             placeholder = { 'Additional information'}
                         />
                          <Content style={styles.content}>
-                            <Button onPress={() => this.submitissue()} containerStyle={styles.butCont} style={styles.button}>Submit</Button>
+                            <Button onPress={() => this.submitissue()} 
+                             styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                             disabled={this.state.disabled}
+                            containerStyle={styles.butCont} 
+                            style={styles.button}>Submit</Button>
                         </Content>
                         
                         </Content>
@@ -160,6 +174,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
         
+    },
+    title: {
+        fontSize: (( Dimensions.get('window').height) * 0.024), 
+        position: 'absolute',
+        top: '-18%',
+        left: '26%'
     },
     text: {
         color: '#000',

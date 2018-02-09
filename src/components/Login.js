@@ -20,7 +20,8 @@ export default class Login extends Component{
            dob: '',
            upline: '',
            id: '',
-           message: ''
+           message: '',
+           disabled: false
 
         }
     }
@@ -44,6 +45,7 @@ export default class Login extends Component{
         params.append('mobile', this.state.mobile);
         params.append('dob', this.state.dob);
         params.append('upline', this.state.upline);
+        this.setState({disabled: true})
         axios.post('http://api.atikuvotersapp.org/addusers', params)
         .then(response => {
             if(response.data.status == 'true') {
@@ -56,7 +58,8 @@ export default class Login extends Component{
             }
             else {
                 this.setState({
-                    message: response.data.message
+                    message: response.data.message,
+                    disabled: false
                 })
                 ToastAndroid.show(response.data.message, ToastAndroid.SHORT)
                 console.log({else:response})
@@ -156,7 +159,7 @@ export default class Login extends Component{
                         customStyles={{
                             placeholderText: {
                                 color: '#fff',
-                                fontSize: 18,
+                                fontSize: 16,
                                 alignSelf:'flex-start',
                                 paddingLeft:10
                             },
@@ -176,10 +179,12 @@ export default class Login extends Component{
                     />
                     <Content>
                         <Button onPress={() => {
-                            this.signup()
-                            
-                            
-                        }} containerStyle={styles.butCont} style={styles.button}>Sign Up</Button>
+                            this.signup()}}
+                            containerStyle={styles.butCont}
+                            style={styles.button}
+                            styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                            disabled={this.state.disabled}
+                           >Sign Up</Button>
                     </Content>
                     <Content>
                         <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>

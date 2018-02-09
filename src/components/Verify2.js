@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, AsyncStorage, TextInput, TouchableOpacity, BackHandler, Dimensions, Picker, , KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { View, Text, Image, StyleSheet, ImageBackground, AsyncStorage, TextInput, TouchableOpacity, BackHandler, Dimensions, Picker,  KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import CodeInput from 'react-native-confirmation-code-input';
@@ -10,7 +10,8 @@ export default class Verify extends Component{
     constructor() {
         super()
         this.state = {
-            token: '' 
+            token: '',
+            disabled: false 
         }
     }
 
@@ -34,16 +35,7 @@ export default class Verify extends Component{
     }
          
 
-    componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-        }
-      componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-      }
-
-       onBackPress () {
-        BackHandler.exitApp()
-      }
+    
       async verify(code) {
           console.log("called", code, this.props.data)
         //   this.store("this.props.data")
@@ -68,12 +60,14 @@ export default class Verify extends Component{
         resend() {
         var params = new URLSearchParams();
         params.append('user_id', this.props.data.id);
+        this.setState({disabled: true})
         axios.put('http://api.atikuvotersapp.org/resendverificationcode', params)
         .then(response => {
             if(response.data.status !== 'false') {
                 ToastAndroid.show('Code has been sent', ToastAndroid.SHORT);
             }
             else {
+                this.setState({disabled: false})
                 ToastAndroid.show('Error Sending Code', ToastAndroid.SHORT);
             }
         })
@@ -95,6 +89,7 @@ export default class Verify extends Component{
                             ref="codeInputRef1"
                             secureTextEntry
                             className={'border-b'}
+                            keyboardType="numeric"
                             codeLength={5}
                             space={5}
                             cellBorderWidth={3}
@@ -111,7 +106,10 @@ export default class Verify extends Component{
                     </View>
                 </View>
                     <View style={styles.buttonContainer}>
-                        <Button onPress={() => this.resend()} containerStyle={styles.butCont} style={styles.button}>Resend Code</Button>                 
+                        <Button onPress={() => this.resend()} 
+                         styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                         disabled={this.state.disabled}
+                         containerStyle={styles.butCont} style={styles.button}>Resend Code</Button>                 
                     </View>
                         
             </KeyboardAvoidingView>

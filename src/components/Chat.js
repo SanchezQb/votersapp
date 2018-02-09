@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, AsyncStorage , StyleSheet, BackHandler, Dimensions, TouchableOpacity, Image, TextInput} from 'react-native';
-import { StyleProvider, Container, Header, Left, Body, Title} from 'native-base'
+import { StyleProvider, Container, Header, Left, Right, Body, Title} from 'native-base'
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import BackgroundTimer from 'react-native-background-timer'
@@ -128,8 +128,13 @@ class Chat extends React.Component {
                     </TouchableOpacity>
                   </Left>
                   <Body>
-                    <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>CHAT WITH ATIKU</Title>
-                  </Body>  
+                    <Title style={styles.title}>CHAT WITH ATIKU</Title>
+                  </Body>
+                  <Right>
+                    <TouchableOpacity onPress={() => Actions.pop()} style={styles.touchable} activeOpacity = {0.8}>
+                        <Image source={require('../img/back.png')} style={styles.open}/>
+                    </TouchableOpacity>    
+                  </Right>  
               </Header>
         <GiftedChat
           messages={this.state.messages}
@@ -169,7 +174,6 @@ class Chat extends React.Component {
 const styles = StyleSheet.create({
   container: {
       backgroundColor: '#FFF',
-      color: '#000'
   },
   open: {
       width:  (( Dimensions.get('window').height) * 0.025),
@@ -189,6 +193,12 @@ const styles = StyleSheet.create({
       color: '#000',
       marginLeft: '1%'
   },
+  title: {
+    fontSize: (( Dimensions.get('window').height) * 0.024), 
+    position: 'absolute',
+    top: '-18%',
+    left: '26%'
+},
   box:{
       flex: 1,
       justifyContent: 'center'
