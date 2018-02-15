@@ -78,11 +78,10 @@ export default class Login extends Component{
         })
         return(
             <ImageBackground source={require('../img/bg-32.png')} style={styles.bgImg} >
-
-            <View style={styles.container}>
-                <Image source={require('../img/icons-24.png')} style={styles.logo}/>
-                <ScrollView>
-                    <TextInput
+                <View style={styles.container}>
+                    <Image source={require('../img/icons-24.png')} style={styles.logo}/>
+                    <ScrollView>
+                        <TextInput
                             style={styles.input}
                             placeholderTextColor= {'#fff'}
                             fontFamily= 'Roboto'
@@ -91,7 +90,7 @@ export default class Login extends Component{
                             underlineColorAndroid={'#fff'}
                             placeholder={'Name'}
                             multiline={false}
-                        />
+                            />
                         <TextInput
                             style={styles.input}
                             placeholderTextColor= {'#fff'}
@@ -124,73 +123,73 @@ export default class Login extends Component{
                             placeholder={'Referral code if any'}
                             multiline={false}
                         />
-                    <View style={[styles.gender]} >
-                        <Picker
-                            selectedValue={this.state.gender} 
-                            mode='dialog'
-                            onValueChange={(itemValue, itemIndex) => this.setState({gender: itemValue})}>
-                            <Picker.Item  color='#fff' label="Gender" value="Gender" />
-                            <Picker.Item color='#fff' label="Male" value="Male" />
-                            <Picker.Item color='#fff' label="Female" value="Female" />
-                        </Picker>
-                    </View>
-                    <View style={[styles.local]} >
-                        <Picker 
-                            selectedValue={this.state.state}
-                            style={styles.pick}
-                            mode='dialog'
-                            onValueChange={(itemValue, itemIndex) => this.setState({state: itemValue})}>
-                            <Picker.Item  color='#fff' label="State of Residence" value="State of Residence" />
-                            {items}
-                        </Picker>
-                    </View>
-                    <DatePicker
-                        style={styles.dob}
-                        date={this.state.dob}
-                        mode="date"
-                        placeholder="Date of Birth"
-                        format="YYYY-MM-DD"
-                        minDate="1950-05-01"
-                        maxDate="2000-01-01"
-                        androidMode="spinner"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        showIcon={false}
-                        customStyles={{
-                            placeholderText: {
-                                color: '#fff',
-                                fontSize: 16,
-                                alignSelf:'flex-start',
-                                paddingLeft:10
+                        <View style={[styles.gender]} >
+                            <Picker
+                                selectedValue={this.state.gender} 
+                                mode='dialog'
+                                onValueChange={(itemValue, itemIndex) => this.setState({gender: itemValue})}>
+                                <Picker.Item  color='#fff' label="Gender" value="Gender" />
+                                <Picker.Item color='#fff' label="Male" value="Male" />
+                                <Picker.Item color='#fff' label="Female" value="Female" />
+                            </Picker>
+                        </View>
+                        <View style={[styles.local]} >
+                            <Picker 
+                                selectedValue={this.state.state}
+                                style={styles.pick}
+                                mode='dialog'
+                                onValueChange={(itemValue, itemIndex) => this.setState({state: itemValue})}>
+                                <Picker.Item  color='#fff' label="State of Residence" value="State of Residence" />
+                                {items}
+                            </Picker>
+                        </View>
+                        <DatePicker
+                            style={styles.dob}
+                            date={this.state.dob}
+                            mode="date"
+                            placeholder="Date of Birth"
+                            format="YYYY-MM-DD"
+                            minDate="1950-05-01"
+                            maxDate="2000-01-01"
+                            androidMode="spinner"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            showIcon={false}
+                            customStyles={{
+                                placeholderText: {
+                                    color: '#fff',
+                                    fontSize: 16,
+                                    alignSelf:'flex-start',
+                                    paddingLeft:10
+                                },
+                            dateInput: {
+                                // marginLeft: 36,
+                                borderWidth: null,
+                                borderBottomWidth: 1,
+                                borderColor: '#fff'
                             },
-                        dateInput: {
-                            // marginLeft: 36,
-                            borderWidth: null,
-                            borderBottomWidth: 1,
-                            borderColor: '#fff'
-                        },
-                        dateText:{
-                            color: '#fff',
-                            justifyContent: 'flex-start'
-                          }
-                        // ... You can check the source to find the other keys.
-                        }}
-                        onDateChange={(date) => {this.setState({dob: date})}}
-                    />
-                    <Content>
-                        <Button onPress={() => {
-                            this.signup()}}
-                            containerStyle={styles.butCont}
-                            style={styles.button}
-                            styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
-                            disabled={this.state.disabled}
-                           >Sign Up</Button>
-                    </Content>
-                    <Content>
-                        <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>
-                    </Content>
-                </ScrollView>      
-            </View>
+                            dateText:{
+                                color: '#fff',
+                                justifyContent: 'flex-start'
+                            }
+                            // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(date) => {this.setState({dob: date})}}
+                        />
+                        <Content>
+                            <Button onPress={() => {
+                                this.signup()}}
+                                containerStyle={styles.butCont}
+                                style={styles.button}
+                                styleDisabled={{backgroundColor: '#999', opacity: 0.5}}
+                                disabled={this.state.disabled}
+                            >Sign Up</Button>
+                        </Content>
+                        <Content>
+                            <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>
+                        </Content>
+                    </ScrollView>      
+                </View>
             </ImageBackground>
         )
     }

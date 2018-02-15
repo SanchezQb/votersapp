@@ -4,7 +4,7 @@ import { StyleProvider, Container, Header, Left, Right, Body, Title} from 'nativ
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import BackgroundTimer from 'react-native-background-timer'
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 window.navigator.userAgent = 'react-native'
  const io = require('react-native-socket.io-client/socket.io');
 import axios from 'axios'
@@ -42,8 +42,7 @@ class Chat extends React.Component {
     
     // this.determineUser();
   }
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  componentWillMount() {
       axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}`)
       .then(response => { 
             this.setState({
@@ -52,8 +51,14 @@ class Chat extends React.Component {
             })
           
       })
+      // .then(response => axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}`))
+      // .then(res => this.setState({messages: res.data.message}))
         
   }
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+  
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
@@ -76,8 +81,8 @@ class Chat extends React.Component {
       message.map((message)=> {
          obj = {
            message: message.text,
-          user1id: this.state.userId,
-          user1un: this.state.user1un,
+          user1id: 'wilson@gmail.com',
+          user1un: 'wilson',
           user2id: 'admin2@gmail.com',
           status: 0,
           time: ''
@@ -112,10 +117,20 @@ class Chat extends React.Component {
     this.socket.emit('msgadmin', data);
     this._storeMessages(messages);
   }
+
+  renderBubble(props) { return ( <Bubble {...props} 
+    wrapperStyle={{
+        left: {
+          backgroundColor: '#00E640',
+        },
+        right: {
+          backgroundColor: '#26A65B'
+        }
+      }} />
+    )}
   
 
   render() {
-      console.log(this.state)
     var user = { _id: this.state.userId || -1 };
 
     return (
@@ -136,14 +151,20 @@ class Chat extends React.Component {
                     </TouchableOpacity>    
                   </Right>  
               </Header>
-        <GiftedChat
-          messages={this.state.messages}
-          onSend={this.onSend}
-          user={{
-            _id: 'wilson@gmail.com',
-            name: 'wilson'
-          }}
-        />
+              <GiftedChat
+                messages={this.state.messages}
+                onSend={this.onSend}
+                user={{
+                  _id: 'wilson@gmail.com',
+                  name: 'wilson'
+                }}
+                textInputProps={{
+                  style: styles.chatT
+                }}
+                isAnimated = {true}
+                renderBubble={this.renderBubble.bind(this)}
+                
+              />
     </Container>
   </StyleProvider>
 
@@ -174,6 +195,10 @@ class Chat extends React.Component {
 const styles = StyleSheet.create({
   container: {
       backgroundColor: '#FFF',
+  },
+  chatT: {
+    color: '#2C3E50',
+    width: '80%'
   },
   open: {
       width:  (( Dimensions.get('window').height) * 0.025),
@@ -253,4 +278,3 @@ const styles = StyleSheet.create({
 })
 
 module.exports = Chat;
-

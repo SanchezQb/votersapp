@@ -50,7 +50,6 @@ class Manifest extends Component {
         })
     }
     submitmanifest() {
-
         var params = new URLSearchParams();
         params.append('jobs', this.state.checked);
         params.append('business', this.state.checked2);
@@ -81,7 +80,7 @@ class Manifest extends Component {
         .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
   }
     render() {
-        console.log(this.props.data.id)
+        console.log(this.props.data)
         return (
                 <StyleProvider style={getTheme(material)}>
                     <Container style={styles.container}>
@@ -138,7 +137,6 @@ class Manifest extends Component {
                                  disabled={this.state.disabled}
                                 containerStyle={styles.butCont} style={styles.button}>Submit</Button>
                             </Content>
-                            
                             </Content>
                             <AdMobBanner
                                 style={styles.banner}
