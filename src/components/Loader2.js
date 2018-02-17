@@ -18,7 +18,7 @@ import React, { Component } from 'react'
              // Add your logic for the transition
                  Actions.home({data: this.state.userdata})
              
-        }, 2000)
+        }, 500)
      }
      async checkToken(){
      

@@ -38,7 +38,7 @@ title: {
   fontSize: (( Dimensions.get('window').height) * 0.024), 
   position: 'absolute',
   top: '-18%',
-  left: '26%'
+  left: '31%'
 },
 })
 class PhotoGrid extends Component {

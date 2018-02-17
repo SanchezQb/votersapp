@@ -52,7 +52,7 @@ export default class Guide extends Component {
                         </TouchableOpacity>
                     </Left>
                     <Body>
-                        <Title style={{fontSize: (( Dimensions.get('window').height) * 0.024)}}>VOTERS GUIDE</Title>
+                        <Title style={{marginLeft: '5%',fontSize: (( Dimensions.get('window').height) * 0.024)}}>VOTERS GUIDE</Title>
                     </Body>  
                 </Header>
                 <View>

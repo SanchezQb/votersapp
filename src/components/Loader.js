@@ -23,7 +23,7 @@ import React, { Component } from 'react'
                  Actions.login()
              }
              
-        }, 2000)
+        }, 500)
      }
      async checkToken(){
      

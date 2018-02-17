@@ -112,7 +112,7 @@ class Pvc extends Component {
                         <AdMobBanner
                             style={styles.banner}
                             adSize="fullBanner"
-                            adUnitID="ca-app-pub-6762059104295133/9532278899"
+                            adUnitID="ca-app-pub-6559209856638953/7836208719"
                         />
                     </Container>
                 </StyleProvider>

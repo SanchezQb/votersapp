@@ -49,11 +49,12 @@ class Chat extends React.Component {
                 userId: response.data.message[0].email,
                 user1un: response.data.message[0].name
             })
+            
           
       })
       // .then(response => axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}`))
       // .then(res => this.setState({messages: res.data.message}))
-        
+    
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
@@ -70,6 +71,7 @@ class Chat extends React.Component {
     Actions.pop();
     return true;
   }
+
 
   onReceivedMessage(messages) {
     console.log({messageReceived: messages})
@@ -155,8 +157,8 @@ class Chat extends React.Component {
                 messages={this.state.messages}
                 onSend={this.onSend}
                 user={{
-                  _id: 'wilson@gmail.com',
-                  name: 'wilson'
+                  _id: this.state.userId,
+                  name: this.state.user1un
                 }}
                 textInputProps={{
                   style: styles.chatT
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: (( Dimensions.get('window').height) * 0.024), 
     position: 'absolute',
     top: '-18%',
-    left: '26%'
+    left: '31%'
 },
   box:{
       flex: 1,

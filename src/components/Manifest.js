@@ -141,7 +141,7 @@ class Manifest extends Component {
                             <AdMobBanner
                                 style={styles.banner}
                                 adSize="fullBanner"
-                                adUnitID="ca-app-pub-6762059104295133/5645122311"
+                                adUnitID="ca-app-pub-6559209856638953/2268666191"
                             />
                     </Container>
                 </StyleProvider>

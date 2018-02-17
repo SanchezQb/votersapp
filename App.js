@@ -71,7 +71,7 @@ export default class App extends Component<{}> {
                 hideDrawerButton={false}
               >
               <Stack key="main">
-                <Scene key="loader2" component={Loader2} title="Loader2" hideNavBar= {true} />
+                <Scene key="loader" component={Loader} title="Loader" hideNavBar= {true} />
                 <Scene key="home" component={Home} title="Home" hideNavBar= {true} />
                 <Scene key="chat" component={Chat} title="Chat" hideNavBar= {true} />
                 <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />

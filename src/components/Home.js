@@ -5,10 +5,11 @@ import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Actions } from 'react-native-router-flux'
-import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, ScrollView , BackHandler, ToastAndroid} from 'react-native'
+import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, ScrollView , BackHandler, ToastAndroid, AsyncStorage} from 'react-native'
 import RNFetchBlob from 'react-native-fetch-blob'
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import axios from 'axios'
+var ImagePicker = require('react-native-image-picker');
 
 
 export default class Home extends Component {
@@ -18,7 +19,8 @@ export default class Home extends Component {
             isLoading: false,
             dp: null,
             chosen: false,
-            filepath: ''
+            avatarSource: '',
+            name: ''
         }
     }
     componentDidMount () {
@@ -32,54 +34,79 @@ export default class Home extends Component {
       onBackPress () {
        BackHandler.exitApp()
       }
+      componentWillMount() {
+          this.getData()
+          axios.get(`http://api.atikuvotersapp.org/users/47`)
+          .then(res => this.setState({
+            name: res.data.message[0].name,
+          }))
+      }
       pickFIle(){
-        DocumentPicker.show({
-            filetype: [DocumentPickerUtil.allFiles()],
-          },(error,res) => {
-            // Android
-            if(error){
-                console.log(error)
-                this.setState({
-                    choosen: false
-                })
-                return null
-            }
-            ToastAndroid.show(
-                'File has been selected',
-                ToastAndroid.SHORT,
-                
-              );
-              const split = res.uri.split('/');
-            const name = split.pop();
-            const inbox = split.pop();
-              this.setState({
-                choosen: true,
-                filePath: res.uri
-            })
-              
-            console.log(
-               res.uri,
-               res.type, // mime type
-               res.fileName,
-               res.fileSize,
-            );
-            console.log({split: split, name: name, inbox: inbox})
-            this.uploadPic()
-          });
+          var options = {
+              title: 'Select Profile Picture'
+          }
+        ImagePicker.showImagePicker( options, (response) => {
+            console.log('Response = ', response);
           
-     
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+              let source = { uri: response.uri };
+          
+              // You can also display the image using data:
+              // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+          
+              this.setState({
+                avatarSource: source
+              });
+              this.saveData()
+            }
+          });
     }
-    uploadPic() {
-       const formData = new FormData();
-       formData.append('user_id', this.props.data.id)
-       formData.append('data', this.state.filepath)
-       axios.post('http://api.atikuvotersapp.org/uploaddp', formData)
-       .then(res => console.log(res))
-       .catch(err => console.log(err))
-       }
-      
+    saveData() {
+        let imagePath = this.state.avatarSource
+        AsyncStorage.setItem('displaypicture', JSON.stringify(imagePath))
+    }
+    getData = async () => {
+        try {
+            let imagePath = await AsyncStorage.getItem('displaypicture')
+            let parsed = JSON.parse(imagePath)
+            if(imagePath !== null) {
+                this.setState({
+                    avatarSource: parsed
+                })
+            }
+            else {
+                avatarSource: ''
+            }
+            
+        }
+        catch(error) {
+            alert("Error fetching display picture")
+        }   
+
+    }
+    userProfile () {
+        if(this.state.avatarSource == "") {
+            return (
+                <Image source={require('../img/icons-06.png')} style={styles.dp}/>
+            )
+        }
+        else {
+            return (
+                <Image source={this.state.avatarSource} style={styles.dp}/>
+            )
+        }
+    }
   render() {
-    console.log(this.state.filepath)
+    console.log(this.props.data)
     return (
         <StyleProvider style={getTheme(material)}>
             <Container style={styles.container}>
@@ -99,8 +126,9 @@ export default class Home extends Component {
                     </Right>  
                 </Header>
                 <TouchableOpacity onPress={this.pickFIle.bind(this)} style={styles.dpcont} activeOpacity = {0.8}>
-                    <Image source={require('../img/icons-06.png')} style={styles.dp}/>
+                    {this.userProfile()}
                 </TouchableOpacity>
+                <Text style={styles.welcome}>Welcome, {this.state.name}</Text>
                 <Content>
                     <Grid style={styles.grid}>
                         <TouchableOpacity onPress={()=> Actions.guide()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
@@ -168,7 +196,7 @@ export default class Home extends Component {
                     <AdMobBanner
                         style={styles.banner}
                         adSize="fullBanner"
-                        adUnitID="ca-app-pub-6762059104295133/6385651080"
+                        adUnitID="ca-app-pub-6559209856638953/1721871282"
                     />  
                 </Content>
             </Container>
@@ -198,13 +226,10 @@ const styles = StyleSheet.create({
         left: '26%'
     },
     dp: {
-        
-        height: 60,
-        borderRadius: 30,
-        width: 60,
+        height: 100,
+        borderRadius: 50,
+        width: 100,
         alignSelf: 'center',
-        marginTop: '10%',
-        marginBottom: '8%',
     },
     dpcont: {
         backgroundColor: '#eee',
@@ -213,7 +238,7 @@ const styles = StyleSheet.create({
         width: 100,
         alignSelf: 'center',
         marginTop: '6%',
-        marginBottom: '8%',
+        marginBottom: '4%',
     },
       col: {
           width: '50%',
@@ -239,6 +264,13 @@ const styles = StyleSheet.create({
         opacity: 0,
         position: 'absolute',
         bottom: -200
+    },
+    welcome: {
+        color: '#000',
+        textAlign: 'center',
+        fontSize: (( Dimensions.get('window').height) * 0.02),
+        marginBottom: '4%'
+
     }
       
 })

@@ -120,7 +120,7 @@ import React, { Component } from 'react';
      },
      input: {
          marginTop: '8%',
-         width: '80%',
+         width: '60%',
          color: '#eee',
          textAlign: 'center',
          

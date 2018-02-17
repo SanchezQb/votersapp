@@ -3,6 +3,7 @@ package com.votersapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import com.sbugert.rnadmob.RNAdMobPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new ReactNativeOneSignalPackage(),
             new BackgroundTimerPackage(),
             new RNAdMobPackage(),

@@ -185,7 +185,7 @@ export default class Opportunity extends Component{
                         <AdMobBanner
                             style={styles.banner}
                             adSize="fullBanner"
-                            adUnitID="ca-app-pub-6762059104295133/6487243342"
+                            adUnitID="ca-app-pub-6559209856638953/2803373886"
                         />
                     </View>             
                 </Container>
