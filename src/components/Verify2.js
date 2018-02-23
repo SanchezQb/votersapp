@@ -34,12 +34,13 @@ export default class Verify extends Component{
     }
     
     async verify(code) {
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
         console.log("called", code, this.props.data)
         //   this.store("this.props.data")
         var params = new URLSearchParams();
         params.append('user_id', this.props.data.id);
         params.append('token', code);
-        axios.post('http://api.atikuvotersapp.org/reverifytoken', params)
+        axios.post(`http://api.atikuvotersapp.org/reverifytoken/${apiKey}`, params)
         .then(response => {
             console.log({VerifyRes:response})
             if(response.data.status !== 'false') {
@@ -107,6 +108,9 @@ export default class Verify extends Component{
                             disabled={this.state.disabled}
                             containerStyle={styles.butCont} style={styles.button}>Resend Code</Button>                 
                         </View>
+                        <View>
+                            <Text style={styles.olduser}onPress={() => Actions.dnd()}>Didn't get a message? Click here</Text>
+                        </View>
                             
                 </KeyboardAvoidingView>
             </ImageBackground>
@@ -171,5 +175,12 @@ const styles = StyleSheet.create({
       },
       buttonContainer: {
           marginTop: '8%'
+      },
+      olduser: {
+        color: '#fff',
+        marginTop: '6%',
+        marginBottom: '3%',
+        alignSelf: 'center',
+        fontSize:  (( Dimensions.get('window').height) * 0.023)
       }
 })

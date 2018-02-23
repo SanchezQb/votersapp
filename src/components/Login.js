@@ -25,18 +25,23 @@ export default class Login extends Component{
 
         }
     }
-    componentDidMount () {
+    componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-      }
-    
-      componentWillUnmount () {
+        }
+      componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
       }
-    
-      onBackPress () {
-       BackHandler.exitApp()
+
+       onBackPress () {
+        if (Actions.state.index === 0) {
+          return false;
+        }
+
+        Actions.pop();
+        return true;
       }
       signup() {
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
         var params = new URLSearchParams();
         params.append('name', this.state.name);
         params.append('gender', this.state.gender);
@@ -45,8 +50,9 @@ export default class Login extends Component{
         params.append('mobile', this.state.mobile);
         params.append('dob', this.state.dob);
         params.append('upline', this.state.upline);
+        params.append('device', "Android");
         this.setState({disabled: true})
-        axios.post('http://api.atikuvotersapp.org/addusers', params)
+        axios.post(`http://api.atikuvotersapp.org/addusers/${apiKey}`, params)
         .then(response => {
             if(response.data.status == 'true') {
                 this.setState({
@@ -185,9 +191,6 @@ export default class Login extends Component{
                                 disabled={this.state.disabled}
                             >Sign Up</Button>
                         </Content>
-                        <Content>
-                            <Text style={styles.olduser}onPress={() => Actions.olduser()}>Already a user? Verify phone number here</Text>
-                        </Content>
                     </ScrollView>      
                 </View>
             </ImageBackground>
@@ -261,10 +264,5 @@ const styles = StyleSheet.create({
           fontSize:  (( Dimensions.get('window').height) * 0.03),
           color: '#fff',
       },
-      olduser: {
-        color: '#fff',
-        marginBottom: '3%',
-        alignSelf: 'center',
-        fontSize:  (( Dimensions.get('window').height) * 0.023)
-      }
+     
 })

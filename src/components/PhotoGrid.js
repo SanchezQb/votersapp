@@ -66,7 +66,8 @@ class PhotoGrid extends Component {
   }
 
   fetchPhotos() {
-    return fetch('http://api.atikuvotersapp.org/getgallery')
+    const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+    return fetch(`http://api.atikuvotersapp.org/getgallery/${apiKey}`)
     .then((response) => response.json())
     .then((response) => {
       console.log(response.message)
@@ -150,7 +151,7 @@ class PhotoGrid extends Component {
                     </Right>  
                 </Header>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{color: '#000'}}>Could not Pictures :(</Text>
+                  <Text style={{color: '#000'}}>Could not Load Pictures :(</Text>
                   <Text></Text>
                   <Button onPress={() => {this.reset()}} title="RETRY" color='#008841'></Button>
                 </View>

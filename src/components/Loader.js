@@ -20,7 +20,7 @@ import React, { Component } from 'react'
                  Actions.home({data: this.state.userdata})
              }
              else{
-                 Actions.login()
+                 Actions.main()
              }
              
         }, 500)

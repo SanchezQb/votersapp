@@ -50,13 +50,18 @@ class Manifest extends Component {
         })
     }
     submitmanifest() {
-        var params = new URLSearchParams();
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+        if(this.state.checked !== true && this.state.checked2 !== true && this.state.checked3 !==true ) {
+            ToastAndroid.show('Please check at least one', ToastAndroid.SHORT)
+        }
+        else {
+            var params = new URLSearchParams();
         params.append('jobs', this.state.checked);
         params.append('business', this.state.checked2);
         params.append('others', this.state.other);
         params.append('user_id', this.props.data.id);
         this.setState({disabled: true})
-        axios.post('http://api.atikuvotersapp.org/addmanifest', params)
+        axios.post(`http://api.atikuvotersapp.org/addmanifest/${apiKey}`, params)
         .then(response => {
             if(response.data.status == 'true') {
                 this.setState({
@@ -78,6 +83,8 @@ class Manifest extends Component {
             
         })
         .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
+        }
+        
   }
     render() {
         console.log(this.props.data)

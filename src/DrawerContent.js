@@ -57,10 +57,10 @@ class DrawerContent extends React.Component {
             <Image source={require('./img/icons-24.png')} style={styles.logo}/>
             <Text style={styles.version}>V.1.0</Text>
             <List>
-              <ListItem>
+              <ListItem onPress={() => Actions.about()}>
                 <Text style={styles.link}>About Voters App</Text>
               </ListItem>
-              <ListItem>
+              <ListItem onPress={() => Actions.support()}>
                 <Text style={styles.link}>Support</Text>
               </ListItem>
             </List>

@@ -37,7 +37,8 @@ class Pvc extends Component {
         return true;
       }
       urlget() {
-        axios.get('http://api.atikuvotersapp.org/regcenters')
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+        axios.get(`http://api.atikuvotersapp.org/regcenters/${apiKey}`)
         .then(response => {
             console.log( response.data.message[0].name)
             this.setState({url: response.data.message[0].name})

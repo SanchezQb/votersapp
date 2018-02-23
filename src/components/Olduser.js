@@ -28,7 +28,7 @@ import React, { Component } from 'react';
           return false;
         }
 
-        Actions.login();
+        Actions.pop();
         return true;
       }
 

@@ -40,34 +40,41 @@ class Rate extends Component {
         });
       }
       submitrate() {
-
-        var params = new URLSearchParams();
-        params.append('rate', this.state.starCount);
-        params.append('user_id', this.props.data);
-        this.setState({disabled: true})
-        axios.post('http://api.atikuvotersapp.org/rate', params)
-        .then(response => {
-            if(response.data.status == 'true') {
-                this.setState({
-                    message: response.data.message
-                })
-                console.log(this.state.id)
-                ToastAndroid.show('Rated', ToastAndroid.SHORT);
-                Actions.pop()
-                console.log(response)
-            }
-            else {
-                this.setState({
-                    message: response.data.message,
-                    disabled: false
-                })
-                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
-
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+          if(this.state.starCount == 0) {
+              ToastAndroid.show('Please select a star to rate', ToastAndroid.SHORT)
+          }
+          else {
+            var params = new URLSearchParams();
+            params.append('rate', this.state.starCount);
+            params.append('user_id', this.props.data);
+            this.setState({disabled: true})
+            axios.post(`http://api.atikuvotersapp.org/rate/${apiKey}`, params)
+            .then(response => {
+                if(response.data.status == 'true') {
+                    this.setState({
+                        message: response.data.message
+                    })
+                    console.log(this.state.id)
+                    ToastAndroid.show('Thank you for rating Atiku', ToastAndroid.SHORT);
+                    Actions.pop()
+                    console.log(response)
+                }
+                else {
+                    this.setState({
+                        message: response.data.message,
+                        disabled: false
+                    })
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+    
+                    
+                }
                 
-            }
-            
-        })
-        .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
+            })
+            .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
+          }
+
+       
   }
     
     render() {

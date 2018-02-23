@@ -17,7 +17,8 @@ class Refer extends Component {
         }
     }
     componentWillMount() {
-        axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}`)
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+        axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}/${apiKey}`)
         .then(response => { 
                 this.setState({
                     text: response.data.message[0].mylink,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
       },
       content: {
-        marginTop: '26%',
+        marginTop: '18%',
         alignSelf: 'center'
     },
     subtopic: {

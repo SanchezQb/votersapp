@@ -164,11 +164,13 @@ export default class Opportunity extends Component{
                                 <View style = {styles.bottomA} > 
                                     <Image style = {styles.Jimg1} source = {require('../img/icons-14.png')} />
                                     <View>
-                                        <Text style ={styles.text} > Business Capital For Nigerians</Text>
+                                        <Text style ={styles.text}> Business Capitals</Text>
+                                        <Text style ={styles.text}> For Nigerians</Text>
+
                                     </View>
                                 </View>
                                 <View style = {styles.bottomB}>
-                                    <Text style = {styles.cvT} > Submit Your CV</Text>
+                                    <Text style = {styles.cvT} > Submit Your Business Idea</Text>
                                     <View style={styles.file} >
                                         <Text  style={styles.filec}> File : </Text>
                                         <TouchableOpacity style = {styles.chooseF} onPress={this.pickFIle2.bind(this)} >

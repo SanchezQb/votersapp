@@ -51,38 +51,45 @@ class Issues extends Component {
         })
     }
     submitissue() {
-
-        var params = new URLSearchParams();
-        params.append('unemployment', this.state.checked);
-        params.append('security', this.state.checked2);
-        params.append('electricity', this.state.checked3);
-        params.append('others', this.state.other);
-        params.append('user_id', this.props.data.id);
-        this.setState({disabled: true})
-        axios.post('http://api.atikuvotersapp.org/addnationalissue', params)
-        .then(response => {
-            if(response.data.status == 'true') {
-                this.setState({
-                    message: response.data.message
-                })
-                console.log(this.state.id)
-                ToastAndroid.show('Done', ToastAndroid.SHORT);
-                Actions.pop()
-                console.log(response)
-            }
-            else {
-                this.setState({
-                    message: response.data.message,
-                    disabled: false
-                })
-                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+    const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+        if(this.state.checked !== true && this.state.checked2 !== true && this.state.checked3 !==true ) {
+            ToastAndroid.show('Please check at least one', ToastAndroid.SHORT)
+        }
+        else {
+            var params = new URLSearchParams();
+            params.append('unemployment', this.state.checked);
+            params.append('security', this.state.checked2);
+            params.append('electricity', this.state.checked3);
+            params.append('others', this.state.other);
+            params.append('user_id', this.props.data.id);
+            this.setState({disabled: true})
+            axios.post(`http://api.atikuvotersapp.org/addnationalissue/${apiKey}`, params)
+            .then(response => {
+                if(response.data.status == 'true') {
+                    this.setState({
+                        message: response.data.message
+                    })
+                    console.log(this.state.id)
+                    ToastAndroid.show('Done', ToastAndroid.SHORT);
+                    Actions.pop()
+                    console.log(response)
+                }
+                else {
+                    this.setState({
+                        message: response.data.message,
+                        disabled: false
+                    })
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+                    
+                }
                 
-            }
-            
-        })
-        .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
+            })
+            .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT))
+        }
+ 
   }
     render() {
+        console.log(this.state)
         return (
             <StyleProvider style={getTheme(material)}>
                 <Container style={styles.container}>

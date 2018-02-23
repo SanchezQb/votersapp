@@ -56,26 +56,7 @@ export default class Guide extends Component {
                     </Body>  
                 </Header>
                 <View>
-                    <DeckSwiper
-                        ref={(c) => this._deckSwiper = c}
-                        dataSource={data}
-                        renderEmpty={() =>
-                        <View style={{ alignSelf: "center" }}>
-                            <Text>Over</Text>
-                        </View>
-                        }
-                        renderItem={item =>
-                        <View style={styles.deck}> 
-                            <Text style = {[styles.topic, styles.step]}> {item.step} </Text>
-                                {item.img}
-                            <ScrollView>
-                                <Text style = {[styles.topic, styles.top]}>{item.topic} </Text>
-                                <Text style={styles.cont}>{item.content} </Text>
-                            </ScrollView>
-
-                        </View>
-                        }
-                    />
+                    
                 </View>
         </Container>
         </StyleProvider>

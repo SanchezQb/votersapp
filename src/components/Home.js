@@ -5,7 +5,7 @@ import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Actions } from 'react-native-router-flux'
-import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, ScrollView , BackHandler, ToastAndroid, AsyncStorage} from 'react-native'
+import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, View, ScrollView , BackHandler, ToastAndroid, AsyncStorage, ActivityIndicator, Alert} from 'react-native'
 import RNFetchBlob from 'react-native-fetch-blob'
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import axios from 'axios'
@@ -16,15 +16,17 @@ export default class Home extends Component {
     constructor() {
         super()
         this.state = {
-            isLoading: false,
+            isLoading: true,
             dp: null,
             chosen: false,
             avatarSource: '',
-            name: ''
+            name: '',
+            
         }
     }
     componentDidMount () {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        
       }
     
       componentWillUnmount () {
@@ -36,10 +38,12 @@ export default class Home extends Component {
       }
       componentWillMount() {
           this.getData()
-          axios.get(`http://api.atikuvotersapp.org/users/47`)
-          .then(res => this.setState({
-            name: res.data.message[0].name,
-          }))
+          setTimeout(() => {
+            this.setState({
+                isLoading: false
+            })
+          }, 1200)
+       
       }
       pickFIle(){
           var options = {
@@ -96,7 +100,7 @@ export default class Home extends Component {
     userProfile () {
         if(this.state.avatarSource == "") {
             return (
-                <Image source={require('../img/icons-06.png')} style={styles.dp}/>
+                <Image source={require('../img/avatar.jpg')} style={styles.dp}/>
             )
         }
         else {
@@ -107,6 +111,13 @@ export default class Home extends Component {
     }
   render() {
     console.log(this.props.data)
+    if (this.state.isLoading) {
+        return (
+          <View style={{flex: 1, justifyContent: 'center', backgroundColor: '#008841'}}>
+            <ActivityIndicator size="large" color="#fff"/>
+          </View>
+        );
+      }
     return (
         <StyleProvider style={getTheme(material)}>
             <Container style={styles.container}>
@@ -128,7 +139,7 @@ export default class Home extends Component {
                 <TouchableOpacity onPress={this.pickFIle.bind(this)} style={styles.dpcont} activeOpacity = {0.8}>
                     {this.userProfile()}
                 </TouchableOpacity>
-                <Text style={styles.welcome}>Welcome, {this.state.name}</Text>
+                <Text style={styles.welcome}>Welcome</Text>
                 <Content>
                     <Grid style={styles.grid}>
                         <TouchableOpacity onPress={()=> Actions.guide()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
@@ -183,7 +194,7 @@ export default class Home extends Component {
                         </TouchableOpacity> 
                     </Grid>
                     <Grid style={styles.grid}>
-                        <TouchableOpacity onPress={()=> Actions.forum({data: this.props.data.id})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
+                        <TouchableOpacity onPress={()=> Actions.topics({data: this.props.data})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                             <Image style={styles.img}source = {require('../img/forum.png')} />
                             <Text style = {styles.info} > Forum </Text>
                         </TouchableOpacity>

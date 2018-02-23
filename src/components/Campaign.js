@@ -31,10 +31,11 @@ class Campaign extends Component {
         return true;
       }
       submitmail() {
+        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
         var params = new URLSearchParams();
         params.append('email', this.state.email);
         this.setState({disabled: true})
-        axios.post('http://api.atikuvotersapp.org/sendconfirm', params)
+        axios.post(`http://api.atikuvotersapp.org/sendconfirm/${apiKey}`, params)
         .then(response => {
             if(response.data.status == 'true') {
                 this.setState({

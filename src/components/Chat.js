@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, AsyncStorage , StyleSheet, BackHandler, Dimensions, TouchableOpacity, Image, TextInput} from 'react-native';
+import { View, Text, AsyncStorage , StyleSheet, BackHandler, Dimensions, TouchableOpacity, Image,ImageBackground, TextInput} from 'react-native';
 import { StyleProvider, Container, Header, Left, Right, Body, Title} from 'native-base'
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
@@ -17,16 +17,21 @@ class Chat extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      userId: null
+      userId: null,
+      user1un: ''
     };
     
     // this.onReceivedMessage = this.onReceivedMessage.bind(this);
     this.socket = io('https://polar-forest-71145.herokuapp.com');
     this.socket.on('connect', ()=>{
         console.log('connected to server', this.socket.connected)
-        this.socket.emit('register', 'wilson@gmail.com');
+        //should be dynamic
+        this.socket.emit('register', this.state.userId);
     })                         
-    this.socket.on('message', this.onReceivedMessage.bind(this));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+    this.socket.on('message', this.onReceivedMessage.bind(this)); 
+    this.socket.on('f_message', ((message)=>{
+      console.log({onReceivedMessage: message})
+    }));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     // this.determineUser = this.determineUser.bind(this);
     
     this.onSend = this.onSend.bind(this);
@@ -35,33 +40,53 @@ class Chat extends React.Component {
     this.socket.on('disconnect', ()=>{
       console.log('disconnected')
     })
-    setTimeout = BackgroundTimer.setTimeout.bind(BackgroundTimer)
-    setInterval = BackgroundTimer.setInterval.bind(BackgroundTimer)
-    clearTimeout = BackgroundTimer.clearTimeout.bind(BackgroundTimer)
-    clearInterval = BackgroundTimer.clearInterval.bind(BackgroundTimer)
-    
+    setTimeout = (fn, ms = 0) => BackgroundTimer.setTimeout(fn, ms)
+    setInterval = (fn, ms = 0) => BackgroundTimer.setInterval(fn, ms)
+    clearTimeout = (fn, ms = 0) => BackgroundTimer.clearTimeout(fn, ms)
+    clearInterval = (fn, ms = 0) => BackgroundTimer.clearInterval(fn, ms)
     // this.determineUser();
   }
   componentWillMount() {
-      axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}`)
+    var apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+    console.log({UseriD: this.props.data.id})
+      axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}/${apiKey}`)
       .then(response => { 
+        console.log({responseWillMount: response})
             this.setState({
                 userId: response.data.message[0].email,
                 user1un: response.data.message[0].name
             })
+            this.apiCall()
             
           
       })
       // .then(response => axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}`))
-      // .then(res => this.setState({messages: res.data.message}))
+      // .then(res => console.log(res));
+      
     
   }
+
+   async apiCall(){
+    var apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+     try{
+      axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}/${apiKey}`)
+      .then((res)=>{
+        console.log(res.data.message)
+        this.getHistory(res.data.message)
+      })
+     }catch(err){
+       console.table(err)
+     }
+    
+   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    
   }
   
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    
   }
    onBackPress () {
     if (Actions.state.index === 0) {
@@ -83,8 +108,8 @@ class Chat extends React.Component {
       message.map((message)=> {
          obj = {
            message: message.text,
-          user1id: 'wilson@gmail.com',
-          user1un: 'wilson',
+          user1id: this.state.userId,
+          user1un: this.state.user1un,
           user2id: 'admin2@gmail.com',
           status: 0,
           time: ''
@@ -92,6 +117,31 @@ class Chat extends React.Component {
       })
       console.log({formated: obj})
       return obj
+  }
+  getHistory(message){
+    message.map((messages)=>{
+      let res = []
+      let x = 1
+      x++
+    let obj = {
+      _id: messages.id,
+      text: messages.message,
+      createdAt: new Date(),
+      user: {
+        _id: messages.user1id,
+        avatar: messages.user1pix
+      }
+    }
+    res.push(obj)
+    this.setState((previousState) => {
+      return {
+        messages: GiftedChat.append(previousState.messages, obj),
+      };
+    });
+    
+    console.log({getHistory: res})
+    return res
+    })
   }
 
   formatoSaveMessage(message){
@@ -120,16 +170,19 @@ class Chat extends React.Component {
     this._storeMessages(messages);
   }
 
-  renderBubble(props) { return ( <Bubble {...props} 
+  renderBubble(props) { 
+    return ( <Bubble {...props} 
     wrapperStyle={{
         left: {
-          backgroundColor: '#00E640',
+          backgroundColor: '#dcf8c6',
+          
         },
         right: {
           backgroundColor: '#26A65B'
         }
       }} />
-    )}
+  )
+}
   
 
   render() {
@@ -153,6 +206,10 @@ class Chat extends React.Component {
                     </TouchableOpacity>    
                   </Right>  
               </Header>
+              <ImageBackground style={styles.bg} source={require('../img/chatBg2.png')} >
+              <View style={styles.topicHead}>
+                <Text style={styles.topicTitle}>Atiku is Offline</Text>
+              </View>
               <GiftedChat
                 messages={this.state.messages}
                 onSend={this.onSend}
@@ -167,6 +224,7 @@ class Chat extends React.Component {
                 renderBubble={this.renderBubble.bind(this)}
                 
               />
+               </ImageBackground>
     </Container>
   </StyleProvider>
 
@@ -202,6 +260,12 @@ const styles = StyleSheet.create({
     color: '#2C3E50',
     width: '80%'
   },
+  bg: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  
+  },
   open: {
       width:  (( Dimensions.get('window').height) * 0.025),
       height:  (( Dimensions.get('window').height) * 0.025),
@@ -215,6 +279,15 @@ const styles = StyleSheet.create({
       fontSize: (( Dimensions.get('window').height) * 0.025),
       marginTop: '5%',
       alignSelf: 'center' 
+  },
+  topicHead: {
+    backgroundColor: '#555'
+  },
+  topicTitle: {
+    color: '#fff',
+    alignSelf: 'center',
+    fontSize: (( Dimensions.get('window').height) * 0.02),
+    padding: '6%'
   },
   checks: {
       color: '#000',
