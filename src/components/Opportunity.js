@@ -17,6 +17,7 @@ export default class Opportunity extends Component{
             choosen: false,
             choosenb: false,
             filePath: '',
+            filepathb: ''
         }
     }
     componentDidMount() {
@@ -33,7 +34,7 @@ export default class Opportunity extends Component{
         Actions.pop();
         return true;
       }
-    
+      
     pickFIle(){
         DocumentPicker.show({
             filetype: [DocumentPickerUtil.allFiles()],
@@ -91,7 +92,7 @@ export default class Opportunity extends Component{
             const inbox = split.pop();
               this.setState({
                 choosenb: true,
-                filePath: res.uri
+                filePathb: res.uri
             })
               
             console.log(
@@ -109,8 +110,25 @@ export default class Opportunity extends Component{
             ToastAndroid.show('Please select a file to upload', ToastAndroid.SHORT)
         }
         else {
-            ToastAndroid.show('Submitted', ToastAndroid.SHORT)
-            Actions.pop()
+            ToastAndroid.show('Submitting', ToastAndroid.SHORT)
+            setTimeout(() => {
+                ToastAndroid.show('Submitted', ToastAndroid.SHORT)
+                Actions.pop()
+            }, 2500)
+           
+        }
+    }
+    submitb() {
+        if(this.state.filepathb == '') {
+            ToastAndroid.show('Please select a file to upload', ToastAndroid.SHORT)
+        }
+        else {
+            ToastAndroid.show('Submitting', ToastAndroid.SHORT)
+            setTimeout(() => {
+                ToastAndroid.show('Submitted', ToastAndroid.SHORT)
+                Actions.pop()
+            }, 2500)
+           
         }
     }
 
@@ -178,7 +196,7 @@ export default class Opportunity extends Component{
                                         </TouchableOpacity>
                                         <Text style={styles.filec}>  {this.state.choosenb? 'file selected': 'No file selected'}  </Text>
                                     </View>
-                                    <TouchableOpacity style={styles.submitCv} onPress={() => this.submit()}>
+                                    <TouchableOpacity style={styles.submitCv} onPress={() => this.submitb()}>
                                         <Text style={styles.submitCvT}> Submit Idea </Text>
                                     </TouchableOpacity>
                                 </View>

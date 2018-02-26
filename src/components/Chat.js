@@ -18,7 +18,8 @@ class Chat extends React.Component {
     this.state = {
       messages: [],
       userId: null,
-      user1un: ''
+      user1un: '',
+      onlineStatus: "Offline"
     };
     
     // this.onReceivedMessage = this.onReceivedMessage.bind(this);
@@ -60,8 +61,10 @@ class Chat extends React.Component {
             
           
       })
-      // .then(response => axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}`))
-      // .then(res => console.log(res));
+      axios.get(`http://api.atikuvotersapp.org/getstatus/${apiKey}`)
+      .then(res => this.setState({
+        onlineStatus: res.data.message[0].status
+      }))
       
     
   }
@@ -72,7 +75,9 @@ class Chat extends React.Component {
       axios.get(`http://api.atikuvotersapp.org/conversations/${this.state.userId}/${apiKey}`)
       .then((res)=>{
         console.log(res.data.message)
-        this.getHistory(res.data.message)
+        let data = res.data.message
+        data.reverse()
+        this.getHistory(data)
       })
      }catch(err){
        console.table(err)
@@ -126,7 +131,7 @@ class Chat extends React.Component {
     let obj = {
       _id: messages.id,
       text: messages.message,
-      createdAt: new Date(),
+      createdAt: messages.date,
       user: {
         _id: messages.user1id,
         avatar: messages.user1pix
@@ -146,13 +151,14 @@ class Chat extends React.Component {
 
   formatoSaveMessage(message){
     let res = []
+    console.log({message: message.date})
     let obj = {
       _id: Math.floor(Math.random() * 20),
       text: message.message,
-      createdAt: new Date(),
+      createdAt: message.date,
       user: {
         _id: message.user1id,
-        name: 'wilson'
+        name: this.state.user1un
       }
     }
     res.push(obj)
@@ -208,7 +214,7 @@ class Chat extends React.Component {
               </Header>
               <ImageBackground style={styles.bg} source={require('../img/chatBg2.png')} >
               <View style={styles.topicHead}>
-                <Text style={styles.topicTitle}>Atiku is Offline</Text>
+                <Text style={styles.topicTitle}>Atiku is {this.state.onlineStatus}</Text>
               </View>
               <GiftedChat
                 messages={this.state.messages}

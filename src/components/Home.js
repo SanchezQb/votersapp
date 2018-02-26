@@ -196,7 +196,7 @@ export default class Home extends Component {
                     <Grid style={styles.grid}>
                         <TouchableOpacity onPress={()=> Actions.topics({data: this.props.data})} style= {{backgroundColor: '#eee', height: 160, width: '42%'}} >
                             <Image style={styles.img}source = {require('../img/forum.png')} />
-                            <Text style = {styles.info} > Forum </Text>
+                            <Text style = {styles.info} > Chat Forum </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=> Actions.photogrid({data: this.props.data})} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >
                             <Image style={styles.img}source = {require('../img/gallery.png')} />

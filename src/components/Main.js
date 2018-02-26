@@ -25,10 +25,10 @@ export default class Login extends Component{
                     <Text style={styles.welcome}>Welcome!</Text>
                     <Content style={styles.content}>
                         <Button bordered danger style={styles.button} onPress={() => Actions.login()}>
-                            <Text style={styles.text}>Signup</Text>
+                            <Text style={styles.text}>Sign Up</Text>
                         </Button>
                         <Button bordered danger style={styles.button}  onPress={() => Actions.olduser()}>
-                            <Text style={styles.text}>Signin</Text>
+                            <Text style={styles.text}>Sign In</Text>
                         </Button>
                     </Content>
                         

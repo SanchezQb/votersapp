@@ -50,7 +50,7 @@ class Topics extends Component {
         this.fetchPhotos()
       }
       
-  
+      
     render() {
         const items = this.state.topics.map((topic, i) => {
             return (

@@ -32,30 +32,35 @@ class Campaign extends Component {
       }
       submitmail() {
         const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
-        var params = new URLSearchParams();
-        params.append('email', this.state.email);
-        this.setState({disabled: true})
-        axios.post(`http://api.atikuvotersapp.org/sendconfirm/${apiKey}`, params)
-        .then(response => {
-            if(response.data.status == 'true') {
-                this.setState({
-                    message: response.data.message
-                })
-                ToastAndroid.show('Thank you for Joining the Campaign', ToastAndroid.SHORT);
-                Actions.pop()
-                console.log(response)
-            }
-            else {
-                this.setState({
-                    message: response.data.message,
-                    disabled: false
-                })
-                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+        if(this.state.email == '') {
+            ToastAndroid.show('Please fill in an email address', ToastAndroid.SHORT)
+        }
+        else {
+            var params = new URLSearchParams();
+            params.append('email', this.state.email);
+            this.setState({disabled: true})
+            axios.post(`http://api.atikuvotersapp.org/sendconfirm/${apiKey}`, params)
+            .then(response => {
+                if(response.data.status == 'true') {
+                    this.setState({
+                        message: response.data.message
+                    })
+                    ToastAndroid.show('Completed', ToastAndroid.SHORT);
+                    Actions.pop()
+                    console.log(response)
+                }
+                else {
+                    this.setState({
+                        message: response.data.message,
+                        disabled: false
+                    })
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
+                    
+                }
                 
+            })
+            .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
             }
-            
-        })
-        .catch(err => ToastAndroid.show('Failed! Check internet connection', ToastAndroid.SHORT)) 
   } 
     render() {
         return (

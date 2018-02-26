@@ -137,11 +137,10 @@ class Forum extends React.Component {
     const obj = {
       _id: Math.floor(Math.random() * 20),
       text: message.message,
-      createdAt: new Date(),
+      createdAt: message.createdAt,
       user: {
         _id: message.sender_email,
         name: message.sender_name,
-        avatar: message.sender_pix
       }
     };
     res.push(obj);
