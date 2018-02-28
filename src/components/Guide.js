@@ -6,26 +6,66 @@ import { StyleSheet, Dimensions, TouchableOpacity, Image, BackHandler, ScrollVie
 import { Actions } from 'react-native-router-flux'
 const data = [
     {
-        topic: "WHAT IS PERMANENT VOTERS’ CARD (PVC)?",
-        content: "The Permanent Voters’ Card (PVC) is a smart card-based (like your ATM card) Voter ID, which holds voter’s information such as bio-data, biometrics and passport photograph. The card technology provides adequate security features to reduce vulnerability to counterfeiting. It will be used for identification and authentication of voters during elections, starting from 2015.",
-        img: <Image style={{width: '100%'}} source = {require('../img/pvc.png')} />,
+        content: "Upon arrival at the polling unit, join the queue.",
+        img: <Image style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
         step : "STEP 1",
-        number: " 1/3 >"
+        number: " 1/10 >"
     },
     {
-        topic: "AM I ELIGIBLE TO COLLECT PERMANENT VOTERS’ CARD (PVC)?",
-        content: "The Independent National Electoral Commission (INEC) has stated that for you to get your PVC, you must: have registered before, have your name on the voters’ register, have a temporary voter card (TVC), have your identity confirmed if you have lost your TVC and be physically present at the collection centre to get your PVC.",
-        img: <Image  style={{width: '100%'}} source = {require('../img/eligible.jpg')} />,
+        content: "The Polling Official will request for your Permanent Voter’s Card (PVC) and check if the photograph on the PVC matches your face. Then he/she will check if your name is on the register for that polling unit.  He/she will also use the card reader to confirm the status of the PVC. After this, he/she will check your fingers to ascertain that you have not voted before.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
         step : "STEP 2",
-        number: "< 2/3 >"
+        number: "< 2/10 >"
     },
     {
-        topic: "WHERE DO I COLLECT MY PVC?",
-        content: "The distribution of the PVC will be at Polling Units (PU) spread across the state between the hours of 8:00am and 4:00pm. Those who are unable to collect theirs during the specified period can do so at the INEC office in their local government area (LGA) afterwards.",
-        img: <Image  style={{width: '100%'}} source = {require('../img/location.jpg')} />,
+        content: "Satisfied that you have been duly verified, the INEC Official will tick against your details in the register.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
         step : "STEP 3",
-        number: "< 3/3 "
-    }
+        number: "< 3/10 > "
+    },
+    {
+        content: "After verifying your PVC, the INEC official will return it to you. Indelible ink will be applied on the cuticle of your finger as a further proof that you have voted.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 4",
+        number: "< 4/10 > "
+    },
+    {
+        content: "The INEC Official will stamp the back of the ballot paper and endorse his/her signature on it.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 5",
+        number: "< 5/10 > "
+    },
+    {
+        content: "The INEC Official will then fold the ballot paper vertically with the printed side inwards before giving it to you.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 6",
+        number: "< 6/10 > "
+    },
+    {
+        content: "At the polling booth, you will then stain your appropriate finger for the election with indelible ink.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 7",
+        number: "< 7/10 > "
+    },
+    {
+        content: " You will use your stained thumb to mark the section provided on the ballot paper for your preferred candidate/party.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 8",
+        number: "< 8/10 "
+    },
+    {
+        content: "You will fold the marked ballot paper vertically with the printed side inwards before dropping it in the ballot box.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 9",
+        number: "< 9/10 > "
+    },
+    {
+        content: " You will then leave the polling station.",
+        img: <Image  style={{width: '100%', height: 200}} source = {require('../img/inec.png')} />,
+        step : "STEP 10",
+        number: "< 10/10 "
+    },
+
 
 ]
 export default class Guide extends Component {
@@ -72,7 +112,6 @@ export default class Guide extends Component {
                             <Text style = {[styles.topic, styles.step]}> {item.step} </Text>
                                 {item.img}
                             <ScrollView>
-                                <Text style = {[styles.topic, styles.top]}>{item.topic} </Text>
                                 <Text style={styles.cont}>{item.content} </Text>
                                 <Text style={styles.cont}>{item.number} </Text>
                             </ScrollView>
@@ -135,7 +174,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '80%',
         alignSelf: 'center',
-        marginBottom: '25%'
+        marginBottom: '25%',
+        marginTop: '10%'
     }
     
     

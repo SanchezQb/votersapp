@@ -26,7 +26,6 @@ export default class Home extends Component {
     }
     componentDidMount () {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-        
       }
     
       componentWillUnmount () {
@@ -37,13 +36,17 @@ export default class Home extends Component {
        BackHandler.exitApp()
       }
       componentWillMount() {
-          this.getData()
+          const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+          this.getData().then(()=> axios.get(`http://api.atikuvotersapp.org/users/${this.props.data.id}/${apiKey}`))
+          .then(res => this.setState({
+              name: res.data.message[0].name
+          }))
           setTimeout(() => {
             this.setState({
                 isLoading: false
             })
           }, 1200)
-       
+          
       }
       pickFIle(){
           var options = {
@@ -139,7 +142,7 @@ export default class Home extends Component {
                 <TouchableOpacity onPress={this.pickFIle.bind(this)} style={styles.dpcont} activeOpacity = {0.8}>
                     {this.userProfile()}
                 </TouchableOpacity>
-                <Text style={styles.welcome}>Welcome</Text>
+                <Text style={styles.welcome}>Welcome, {this.state.name}</Text>
                 <Content>
                     <Grid style={styles.grid}>
                         <TouchableOpacity onPress={()=> Actions.guide()} style= {{backgroundColor: '#ddd', height: 160, width: '42%'}} >

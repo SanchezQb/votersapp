@@ -34,7 +34,7 @@ export default class Verify extends Component{
                         <Text style={styles.msg}>For 9MOBILE Lines Text STOP to 2442 and after 5 Minutes Text START to 2442.</Text>
                     </View>
                         <View>
-                            <Button onPress={() => Actions.pop()} containerStyle={styles.butCont}
+                            <Button onPress={() => Actions.main()} containerStyle={styles.butCont}
                             style={styles.button}>Go Back</Button>                 
                         </View>
                             

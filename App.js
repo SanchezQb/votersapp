@@ -68,6 +68,9 @@ export default class App extends Component<{}> {
               <Scene key="main" component={Main} title="Main" hideNavBar= {true} />
               <Scene key="login" component={Login} title="Login" hideNavBar= {true} />
               <Scene key="olduser" component={Olduser} title="Olduser" hideNavBar= {true} />
+              <Scene key="dnd" component={Dnd} title="Dnd" hideNavBar= {true} />
+              <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
+              <Scene key="verify2" component={Verify2} title="Verify2" hideNavBar= {true} />
             </Stack>
             <Drawer
                 hideNavBar
@@ -83,11 +86,8 @@ export default class App extends Component<{}> {
                 <Scene key="chat" component={Chat} title="Chat" hideNavBar= {true} />
                 <Scene key="forum" component={Forum} title="Forum" hideNavBar= {true} />
                 <Scene key="topics" component={Topics} title="Topics" hideNavBar= {true} />
-                <Scene key="dnd" component={Dnd} title="Dnd" hideNavBar= {true} />
                 <Scene key="about" component={About} title="About" hideNavBar= {true} />
                 <Scene key="support" component={Support} title="Support" hideNavBar= {true} />
-                <Scene key="verify" component={Verify} title="Verify" hideNavBar= {true} />
-                <Scene key="verify2" component={Verify2} title="Verify2" hideNavBar= {true} />
                 <Scene key="promise" component={Promise} title="Promise" hideNavBar= {true} />
                 <Scene key="campaign" component={Campaign} title="Campaign" hideNavBar= {true} />
                 <Scene key="manifest" component={Manifest} title="Manifest" hideNavBar= {true} />

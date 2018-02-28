@@ -134,7 +134,6 @@ class Chat extends React.Component {
       createdAt: messages.date,
       user: {
         _id: messages.user1id,
-        avatar: messages.user1pix
       }
     }
     res.push(obj)
@@ -193,7 +192,6 @@ class Chat extends React.Component {
 
   render() {
     var user = { _id: this.state.userId || -1 };
-
     return (
       <StyleProvider style={getTheme(material)}>
           <Container style={styles.container}>

@@ -6,13 +6,14 @@ import CodeInput from 'react-native-confirmation-code-input';
 import axios from 'axios'
 import 'url-search-params-polyfill';
 
-export default class Verify extends Component{
+export default class Verify extends Component {
     constructor() {
         super()
         this.state = {
             token: '',
             disabled: false 
         }
+        
     }
 
     async store(payload){
@@ -43,11 +44,7 @@ export default class Verify extends Component{
       }
 
        onBackPress () {
-        if (Actions.state.index === 0) {
-          return false;
-        }
-
-        Actions.pop();
+        Actions.main();
         return true;
       }
       async verify(code) {

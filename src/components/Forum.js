@@ -100,7 +100,6 @@ class Forum extends React.Component {
       user: {
         _id: messages.sender_email,
         name: messages.sender_name,
-        avatar: messages.sender_pix
       }
     };
     res.push(obj);

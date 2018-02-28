@@ -3,7 +3,7 @@ import { AdMobBanner } from 'react-native-admob'
 import { StyleProvider, Container, Header, Left, Body, Title, Right, Icon, ListItem, Content, List } from 'native-base'
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
-import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, BackHandler, ToastAndroid, ActivityIndicator, ScrollView, Button } from 'react-native'
+import { Dimensions, StyleSheet, TouchableOpacity, Image, Text, View, BackHandler, ToastAndroid, ActivityIndicator, ScrollView, Button, RefreshControl } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 
@@ -13,7 +13,8 @@ class Topics extends Component {
         this.state = {
            isLoading: true,
            topics: [],
-           error: false
+           error: false,
+           refreshing: false
         }
         this.baseState = this.state
     }
@@ -32,6 +33,9 @@ class Topics extends Component {
         return true;
       }
       componentWillMount() {
+        this.fetchTopics()
+      }
+      fetchTopics = async () => {
         var apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
           axios.get(`http://api.atikuvotersapp.org/getforumtopics/${apiKey}`)
           .then(res => this.setState({
@@ -45,11 +49,19 @@ class Topics extends Component {
               })
           })
       }
+      
       reset = () => {
         this.setState(this.baseState)
-        this.fetchPhotos()
+        this.fetchTopics()
       }
-      
+      _onRefresh() {
+        this.setState({refreshing: true})
+        this.fetchTopics().then(() => {
+          this.setState({
+            refreshing: false
+          })
+        })
+      }
       
     render() {
         const items = this.state.topics.map((topic, i) => {
@@ -70,9 +82,9 @@ class Topics extends Component {
           else if (this.state.error) {
             return (
               <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: '#fff'}}>Could not load Topics :(</Text>
+                <Text style={{color: '#000'}}>Could not load Topics :(</Text>
                 <Text></Text>
-                <Button onPress={() => {this.reset()}} title="RETRY" color='#198c8c'></Button>
+                <Button onPress={() => {this.reset()}} title="RETRY" color='#008841'></Button>
               </View>
               
             )
@@ -98,7 +110,12 @@ class Topics extends Component {
                         </Header>
                         <Text style={styles.topic} > CHAT FORUM </Text>
                         <Content>
-                            <ScrollView>
+                            <ScrollView refreshControl={
+                                <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this._onRefresh.bind(this)}
+                                />
+                                }>
                                 <List style={styles.list}>
                                 {items}
                                 </List>

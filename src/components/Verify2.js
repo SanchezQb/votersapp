@@ -14,6 +14,17 @@ export default class Verify extends Component{
             disabled: false 
         }
     }
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        }
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+      }
+
+       onBackPress () {
+        Actions.main();
+        return true;
+      }
 
     async store(payload){
         try {
