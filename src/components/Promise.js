@@ -118,11 +118,28 @@ onBackPress () {
             </View>
             <View style={styles.details}>
               <Text style={styles.text}>ATIKU ABUBAKAR</Text>
-              <Text style={styles.text2}>Atiku Abubakar is a Nigerian Politician, Business man and Philantropist, who served
-              as the second elected Vice-President of Nigeria from 1999 to 2007, on the platform of the People's Democratic Party,
-              with President Olusegun Obasanjo
-              
-              </Text>
+              <ScrollView>
+                <Text style={styles.text2}>
+                  Atiku Abubakar (GCON) (born 25 November 1946) is a Nigerian
+                  politician, businessman and philanthropist, who served as the second
+                  elected Vice-President of Nigeria from 1999 to 2007. 
+
+                  Following secondary school, Abubakar studied a short while at the
+                  Nigeria Police College in Kaduna. In 1967 he enrolled for a Law Diploma
+                  at the Ahmadu Bello University Institute of Administration, on a
+                  scholarship from regional government. 
+
+                  Abubakar worked in the Nigeria Customs Service for twenty years, rising
+                  to become the Deputy Director, as the second highest position in the
+                  Service was then known. He retired in April 1989. 
+
+                  In 1998 he was elected Governor of Adamawa State. While still
+                  Governor-Elect he was selected by the Peoples Democratic Party (PDP)
+                  Presidential candidate Olusegun Obasanjo as his running mate. The duo
+                  went on to win elections in February 1999, and Abubakar was sworn-in as
+                  Nigeria's second democratically elected vice president on 29 May 1999. 
+                </Text>
+              </ScrollView>
 
             </View>
         </ScrollView>
@@ -176,7 +193,7 @@ topic: {
     marginTop: '1%'
   },
   details: {
-    marginTop: '16%',
+    marginTop: '10%',
     width: '80%',
     alignSelf: 'center'
   },
@@ -189,7 +206,8 @@ topic: {
   text2: {
     color: '#FFF',
     fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: '4%'
 
   }
 

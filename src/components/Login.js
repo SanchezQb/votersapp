@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     logo: {
         width:  (( Dimensions.get('window').height) * 0.23),
         height:  (( Dimensions.get('window').height) * 0.23),
-        marginLeft: '31%',
+        alignSelf: 'center',
         marginTop: '8%'
     },
     input: {

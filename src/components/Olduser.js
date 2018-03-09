@@ -33,7 +33,11 @@ import React, { Component } from 'react';
       }
 
      signin() {
-        const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
+        if(this.state.mobile == '') {
+            ToastAndroid.show('Please enter a registered phone number', ToastAndroid.SHORT)
+        }
+        else {
+            const apiKey = 'AHUE6wpgHdfiCBfufNouWlOsUrM8sr80l17xnuY+NSNol60dI2+3nFC5IHd1SHKCm3UEcIzQ'
         var params = new URLSearchParams();
         params.append('mobile', this.state.mobile);
         this.setState({disabled: true})
@@ -59,6 +63,8 @@ import React, { Component } from 'react';
             
         })
         .catch(err => console.log(err)) 
+        }
+        
 
       }
  
@@ -116,7 +122,7 @@ import React, { Component } from 'react';
      logo: {
          width:  (( Dimensions.get('window').height) * 0.23),
          height:  (( Dimensions.get('window').height) * 0.23),
-         marginLeft: '31%',
+         alignSelf: 'center',
          marginTop: '8%'
      },
      input: {
