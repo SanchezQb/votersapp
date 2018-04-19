@@ -38,11 +38,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFetchBlobPackage()
       );
     }
-
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
   };
 
   @Override
@@ -54,5 +49,9 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+  }
+  @Override
+  protected String getJSMainModuleName() {
+    return "index";
   }
 }
