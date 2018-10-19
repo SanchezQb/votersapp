@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, ImageBackground, Image, StyleSheet, BackHandler,
-   Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, Image, StyleSheet, BackHandler,Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { StyleProvider, Container, Header, Left, Right, Body, Title } from 'native-base';
 import getTheme from '../../native-base-theme/components';
@@ -159,7 +158,7 @@ class Forum extends React.Component {
     this.socket.emit('msgforum', data);
     this._storeMessages(messages);
   }
-
+  // format to send messages
   formatMessage(messages) {
     let obj = null;
     console.log(this.state.userId, this.state.user1un);
@@ -195,8 +194,15 @@ class Forum extends React.Component {
     );
     }
       return ( 
-        <View > 
-          <Text style={{ color: '#26A65B' }}>{props.currentMessage.user.name}</Text>
+        <View>
+          <Text 
+            style={{ 
+              color: '#26A65B',
+              fontWeight: 'bold', 
+              alignSelf:'flex-start',
+              marginBottom: 5
+              }}>{props.currentMessage.user.name}
+            </Text> 
         <Bubble
           {...props} 
         

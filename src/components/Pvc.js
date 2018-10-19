@@ -54,10 +54,10 @@ class Pvc extends Component {
                 // Optional, override notification setting (default to true)
                 notification : false,
                 // Optional, but recommended since android DownloadManager will fail when
-                // the url does not contains a file extension, by default the mime type will be text/plain
+                // the url does not contain a file extension, by default the mime type will be text/plain
                 description : 'File downloaded by download manager.'
             },
-            path: dirs.DownloadDir+ `/regcenters.pdf`
+            path: dirs.DownloadDir + `/regcenters.pdf`
         })
         .fetch('GET', this.state.url)
         .progress({count: 10},(received, total) => {
